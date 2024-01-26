@@ -20,10 +20,10 @@ MonoBehaviour:
       drag: 0.1
     - name: "\u53F3\u76EE"
       sprite: {fileID: 21300000, guid: c501e5fab5bbc4947a23d51e62eb1f41, type: 3}
-      drag: 1
+      drag: 0.1
     - name: "\u9F3B"
       sprite: {fileID: 21300000, guid: de1b70cc544214f15bff12bf783c184c, type: 3}
-      drag: 1
+      drag: 0.1
     - name: "\u53E3"
       sprite: {fileID: 21300000, guid: 78ebaa2f4f6714db0893fa456b08a679, type: 3}
-      drag: 1
+      drag: 0.1

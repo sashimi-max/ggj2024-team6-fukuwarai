@@ -1,6 +1,7 @@
 ﻿using GGJ.Common;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,8 @@ namespace GGJ.Game
     [RequireComponent(typeof(Rigidbody2D))]
     public class FacePartsMover : MonoBehaviour
     {
-        Rigidbody2D rb;
+        public Rigidbody2D rb { get; private set; }
+        public bool isFired { get; private set; } = false;
 
         private void Awake()
         {
@@ -43,7 +45,10 @@ namespace GGJ.Game
 
         private void OnFireButtonUp(InputAction.CallbackContext context)
         {
+            if (isFired) return;
+
             rb.AddRelativeForce(Vector2.up * 4.0f, ForceMode2D.Impulse);
+            isFired = true;
         }
     }
 }

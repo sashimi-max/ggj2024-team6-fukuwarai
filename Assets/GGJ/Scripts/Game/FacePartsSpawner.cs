@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UniRx;
 using UnityEngine;
 
 namespace GGJ.Game
@@ -12,6 +14,9 @@ namespace GGJ.Game
         [SerializeField] FacePartsModel FacePartsPrefab = default;
 
         [SerializeField] FacePartsAsset facePartsAsset = default;
+
+        private IEnumerable<FacePartsMover> movers;
+        bool isGameOver = false;
 
         private void Start()
         {
@@ -27,6 +32,30 @@ namespace GGJ.Game
                 var obj = Instantiate(FacePartsPrefab, facePartsHolders[i].transform);
                 obj.Init(faceParts.facePartsData[(i + offset) % facePartsHolders.Count]);
             }
+
+            movers = facePartsHolders.Select(obj => obj.GetComponentInChildren<FacePartsMover>());
+        }
+
+        private void FixedUpdate()
+        {
+            if (isGameOver || movers == null || movers.Count() == 0) return;
+
+            var allFireds = movers.All(mover => mover.isFired);
+
+            if (!allFireds) return;
+
+            var moveEnds = movers.All(mover => mover.rb.velocity.magnitude < 0.1f);
+
+            if (moveEnds)
+            {
+                gameOver();
+            }
+        }
+
+        private void gameOver()
+        {
+            Debug.Log("gameover!");
+            isGameOver = true;
         }
     }
 }
