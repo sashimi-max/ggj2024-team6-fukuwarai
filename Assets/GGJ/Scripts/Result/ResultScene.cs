@@ -11,25 +11,25 @@ using DG.Tweening;
 namespace GGJ
 {
     /// <summary>
-    /// タイトルシーン
+    /// リザルトシーン
     /// </summary>
-    public class TitleScene : MonoBehaviour
+    public class ResultScene : MonoBehaviour
     {
-        [SerializeField, Tooltip("ゲーム開始ボタン")]
-        private Button _startButton;
+        [SerializeField, Tooltip("タイトルに戻るボタン")]
+        private Button _returnButton;
 
         // Start is called before the first frame update
         void Start()
         {
-            // BGM再生
-            BGMManager.Instance.Play(BGMPath.FANTASY14);
+            //  BGM再生
+            BGMManager.Instance.Play(BGMPath.HEARTBEAT01);
             
-            // 開始ボタン
-            _startButton.OnClickAsObservable()
+            // タイトル戻るボタン
+            _returnButton.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
                     // SceneManager.LoadScene("Game");
-                    SceneManager.LoadScene("Result");
+                    SceneManager.LoadScene("Title");
                 })
                 .AddTo(gameObject);
         }
