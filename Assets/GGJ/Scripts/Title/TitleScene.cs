@@ -1,17 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using KanKikuchi.AudioManager;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UniRx;
-using DG.Tweening;
-using Febucci.UI;
 using TransitionsPlus;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks.Linq;
 
 namespace GGJ
 {
@@ -22,99 +19,120 @@ namespace GGJ
     {
         [SerializeField, Tooltip("ゲーム開始ボタン")]
         private Button _startButton;
+        
+        [SerializeField, Tooltip("オプションボタン")]
+        private Button _optionButton;
 
         [SerializeField, Tooltip("トランジションプロファイル")]
         private TransitionProfile _starTransitionProfile;
+
+        [SerializeField, Tooltip("テキスト")]
+        private TextMeshProUGUI _infoText;
         
+        [SerializeField, Tooltip("NEXTボタン")]
+        private Button _nextButton;
+        
+        
+        [SerializeField, Tooltip("タイトルレイヤー")]
+        private GameObject _titleLayer;
+        [SerializeField, Tooltip("ウルフレイヤー")]
+        private GameObject _worfLayer;
+
+        private static List<bool> _playerStateList = new List<bool>(4);
+        
+        // InputSystem
+        private FukuwaraiControls _fukuwaraiControls;
+
+        private void Awake()
+        {
+            _fukuwaraiControls = new FukuwaraiControls();
+            _fukuwaraiControls.Enable();
+            
+            _playerStateList = new List<bool>(4);
+            for (int i = 0, count = 4; i < count; i++)
+            {
+                _playerStateList.Add(false);
+            }
+            
+            _titleLayer.SetActive(true);
+            _worfLayer.SetActive(false);
+        }
+
         // Start is called before the first frame update
         void Start()
         {
             // BGM再生
             BGMManager.Instance.Play(BGMPath.FANTASY14);
-            
+
             // スタートボタン選択状態
-            EventSystem.current.SetSelectedGameObject (_startButton.gameObject);
-            
+            EventSystem.current.SetSelectedGameObject(_startButton.gameObject);
+
             // 開始ボタン
             _startButton.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
-                    TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Result");
-                    // SceneManager.LoadScene("Game");
-                    // SceneManager.LoadScene("Result");
+                    StartGame();
+                })
+                .AddTo(gameObject);
+            // オプションボタン
+            _optionButton.OnClickAsAsyncEnumerable()
+                .SubscribeAwait(async (unit, token)  =>
+                {
+                    await WolfCheckAsync(token);
                 })
                 .AddTo(gameObject);
         }
-        
-        private void Update()
+
+        private void StartGame()
         {
-            // // 現在のキーボード情報
-            // var currentKeyboard = Keyboard.current;
-            //
-            // // キーボード接続チェック
-            // if (currentKeyboard == null)
-            // {
-            //     // キーボードが接続されていないと
-            //     // Keyboard.currentがnullになる
-            //     return;
-            // }
-            //
-            // // Aキーの入力状態取得
-            // var aKey = currentKeyboard.aKey;
-            //
-            // // Aキーが押された瞬間かどうか
-            // if (aKey.wasPressedThisFrame)
-            // {
-            //     Debug.Log("Aキーが押された！");
-            // }
-            //
-            // // Aキーが離された瞬間かどうか
-            // if (aKey.wasReleasedThisFrame)
-            // {
-            //     Debug.Log("Aキーが離された！");
-            // }
-            //
-            // // Aキーが押されているかどうか
-            // if (aKey.isPressed)
-            // {
-            //     Debug.Log("Aキーが押されている！");
-            // }
-            //
-            //
-            // // 現在のマウス情報
-            // var current = Mouse.current;
-            //
-            // // マウス接続チェック
-            // if (current == null)
-            // {
-            //     // マウスが接続されていないと
-            //     // Mouse.currentがnullになる
-            //     return;
-            // }
-            //
-            // // マウスカーソル位置取得
-            // var cursorPosition = current.position.ReadValue();
-            //
-            // // 左ボタンの入力状態取得
-            // var leftButton = current.leftButton;
-            //
-            // // 左ボタンが押された瞬間かどうか
-            // if (leftButton.wasPressedThisFrame)
-            // {
-            //     Debug.Log($"左ボタンが押された！ {cursorPosition}");
-            // }
-            //
-            // // 左ボタンが離された瞬間かどうか
-            // if (leftButton.wasReleasedThisFrame)
-            // {
-            //     Debug.Log($"左ボタンが離された！{cursorPosition}");
-            // }
-            //
-            // // 左ボタンが押されているかどうか
-            // if (leftButton.isPressed)
-            // {
-            //     Debug.Log($"左ボタンが押されている！{cursorPosition}");
-            // }
+            TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
+        }
+        
+        private async UniTask WolfCheckAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            
+            _titleLayer.SetActive(false);
+            _worfLayer.SetActive(true);
+            
+            var rindex = UnityEngine.Random.Range(0, 4);
+            _playerStateList[rindex] = true;
+
+            // UnityEventを変換
+            var buttonEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
+            
+            await OneCheckAsync(cancellationToken, "Player1", 0);
+            await OneCheckAsync(cancellationToken, "Player2", 1);
+            await OneCheckAsync(cancellationToken, "Player3", 2);
+            await OneCheckAsync(cancellationToken, "Player4", 3);
+
+            await UniTask.WhenAny(
+                _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
+                buttonEvent.OnInvokeAsync());
+            
+            async UniTask OneCheckAsync(CancellationToken cancellationToken, string playerName, int index)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                _infoText.SetText($"{playerName}の番です。役を確認してください。");
+
+                await UniTask.WhenAny(
+                    _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
+                    buttonEvent.OnInvokeAsync());
+            
+                var pType = _playerStateList[index]? "ウルフ": "市民";
+                _infoText.SetText($"あなたの役職は{pType}です。\n確認したらボタンを押してください。");
+            
+                await UniTask.WhenAny(
+                    _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
+                    buttonEvent.OnInvokeAsync());
+            }
+            
+            _infoText.SetText($"準備が整いました！\nボタンを押したらゲームが開始します。");
+            await UniTask.WhenAny(
+                _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
+                buttonEvent.OnInvokeAsync());
+            
+            StartGame();
         }
     }
 }
