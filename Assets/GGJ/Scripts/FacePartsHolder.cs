@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.InputSystem;
+using static GamePlayParameterAssetInstaller;
 
 [RequireComponent(typeof(RectTransform))]
 public class FacePartsHolder : MonoBehaviour
 {
+    [SerializeField] private GamePlayParameter gamePlayParameter = default;
+
     Keyboard current;
     RectTransform rectTransform;
     Sequence sequence;
@@ -26,8 +29,8 @@ public class FacePartsHolder : MonoBehaviour
         sequence = DOTween.Sequence();
 
         sequence
-            .Append(rectTransform.DOAnchorPos(new Vector3(width, 0, 0), 1f))
-            .Append(rectTransform.DOAnchorPos(new Vector3(0, 0, 0), 1f))
+            .Append(rectTransform.DOAnchorPos(new Vector3(width, 0, 0), gamePlayParameter.playerBarMoveTime))
+            .Append(rectTransform.DOAnchorPos(new Vector3(0, 0, 0), gamePlayParameter.playerBarMoveTime))
             .SetLoops(-1)
             .Play();
     }
