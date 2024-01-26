@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.InputSystem;
 using static GamePlayParameterAssetInstaller;
+using GGJ.Common;
 
 namespace GGJ.Game
 {
@@ -12,14 +13,38 @@ namespace GGJ.Game
     {
         [SerializeField] private GamePlayParameter gamePlayParameter = default;
 
-        Keyboard current;
+        public PlayerType playerType;
+
         RectTransform rectTransform;
         Sequence sequence;
         float width;
+
+        private void Awake()
+        {
+            var inputActions = new FukuwaraiControls();
+
+            switch (playerType)
+            {
+                case PlayerType.Player1:
+                    inputActions.Game.Fire.started += OnFireButtonDown;
+                    break;
+                case PlayerType.Player2:
+                    inputActions.Game.Fire2.started += OnFireButtonDown;
+                    break;
+                case PlayerType.Player3:
+                    inputActions.Game.Fire3.started += OnFireButtonDown;
+                    break;
+                default:
+                    inputActions.Game.Fire4.started += OnFireButtonDown;
+                    break;
+            }
+            inputActions.Enable();
+        }
+
+
         // Start is called before the first frame update
         void Start()
         {
-            current = Keyboard.current;
             var parentRectTransform = transform.parent.GetComponent<RectTransform>();
             width = parentRectTransform.sizeDelta.x;
             rectTransform = GetComponent<RectTransform>();
@@ -37,13 +62,9 @@ namespace GGJ.Game
                 .Play();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnFireButtonDown(InputAction.CallbackContext context)
         {
-            if (current[Key.W].wasPressedThisFrame)
-            {
-                sequence.Kill();
-            }
+            sequence.Kill();
         }
     }
 }
