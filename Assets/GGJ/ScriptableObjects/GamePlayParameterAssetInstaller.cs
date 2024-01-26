@@ -8,6 +8,7 @@ public class GamePlayParameterAssetInstaller : ScriptableObject
     [System.Serializable]
     public class GamePlayParameter
     {
+        public float remainingTime = 10.0f;
         public float playerBarMoveTime = 1.0f;
     }
 

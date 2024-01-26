@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +9,7 @@ namespace GGJ.Common
     /// </summary>
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
+        //protected override bool dontDestroyOnLoad { get { return true; } }
         protected abstract bool dontDestroyOnLoad { get; }
 
         private static T instance;
