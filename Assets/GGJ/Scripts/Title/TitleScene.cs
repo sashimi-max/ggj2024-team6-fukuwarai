@@ -26,29 +26,12 @@ namespace GGJ
         [SerializeField, Tooltip("トランジションプロファイル")]
         private TransitionProfile _starTransitionProfile;
         
-        [SerializeField, Tooltip("タイトルテキストアニメーター")]
-        private TextAnimator_TMP _title1Animator;
-        
-        [SerializeField, Tooltip("タイトルテキストアニメーター")]
-        private TextAnimator_TMP _title2Animator;
-
         // Start is called before the first frame update
         void Start()
         {
             // BGM再生
             BGMManager.Instance.Play(BGMPath.FANTASY14);
-
-            Observable.Timer(System.TimeSpan.FromSeconds(5))
-                .Subscribe(_ =>
-                {
-                    _title1Animator.gameObject.SetActive(false);
-                    _title2Animator.gameObject.SetActive(true);
-                    _title2Animator.transform.localScale = Vector3.zero;
-                    _title2Animator.transform.DOScale(new Vector3(1, 1), 0.5f)
-                        .SetEase(Ease.InSine);
-                })
-                .AddTo(gameObject);
-
+            
             // スタートボタン選択状態
             EventSystem.current.SetSelectedGameObject (_startButton.gameObject);
             
