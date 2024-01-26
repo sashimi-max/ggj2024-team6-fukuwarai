@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace GGJ.Common
 {
+    // FIXME: PlayerPositionTypeになってる
     public enum PlayerType
     {
         Player1,

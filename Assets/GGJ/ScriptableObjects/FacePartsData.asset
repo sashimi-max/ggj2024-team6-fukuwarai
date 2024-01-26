@@ -16,14 +16,14 @@ MonoBehaviour:
   - name: "\u30C6\u30B9\u30C8\u30BB\u30C3\u30C8"
     facePartsData:
     - name: "\u5DE6\u76EE"
-      sprite: {fileID: 3351748369286481944, guid: 4dffe6eab57ca4e4ba2f967307bd1c29, type: 3}
+      sprite: {fileID: 21300000, guid: 1f0eb9d512dd3417fb3a3354702619b2, type: 3}
       drag: 0.1
     - name: "\u53F3\u76EE"
-      sprite: {fileID: 567328745045655870, guid: 4dffe6eab57ca4e4ba2f967307bd1c29, type: 3}
+      sprite: {fileID: 21300000, guid: c501e5fab5bbc4947a23d51e62eb1f41, type: 3}
       drag: 1
     - name: "\u9F3B"
-      sprite: {fileID: 2750705142841656183, guid: 4dffe6eab57ca4e4ba2f967307bd1c29, type: 3}
+      sprite: {fileID: 21300000, guid: de1b70cc544214f15bff12bf783c184c, type: 3}
       drag: 1
     - name: "\u53E3"
-      sprite: {fileID: -7053939661997144990, guid: 4dffe6eab57ca4e4ba2f967307bd1c29, type: 3}
+      sprite: {fileID: 21300000, guid: 78ebaa2f4f6714db0893fa456b08a679, type: 3}
       drag: 1
