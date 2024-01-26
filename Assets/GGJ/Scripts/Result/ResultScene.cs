@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UniRx;
 using DG.Tweening;
+using TransitionsPlus;
 
 namespace GGJ
 {
@@ -23,6 +24,8 @@ namespace GGJ
         {
             //  BGM再生
             BGMManager.Instance.Play(BGMPath.HEARTBEAT01);
+
+            // TransitionAnimator.Start( _starTransitionProfile);
             
             // タイトル戻るボタン
             _returnButton.OnClickAsObservable()
