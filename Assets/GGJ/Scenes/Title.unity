@@ -3043,6 +3043,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleBackground
       objectReference: {fileID: 0}
+    - target: {fileID: 8532577120095403001, guid: fb477501f991c4d70bcba2b11d424428, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
