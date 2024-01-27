@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace GGJ.Game
 {
@@ -58,6 +59,8 @@ namespace GGJ.Game
         {
             Debug.Log("gameover!");
             isGameOver = true;
+
+            SceneManager.LoadScene("Result", LoadSceneMode.Additive);
         }
     }
 }

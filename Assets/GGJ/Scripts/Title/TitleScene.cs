@@ -17,6 +17,8 @@ namespace GGJ
     /// </summary>
     public class TitleScene : MonoBehaviour
     {
+        public static List<bool> PlayerStateList = new List<bool>(4);
+        
         [SerializeField, Tooltip("ゲーム開始ボタン")]
         private Button _startButton;
         
@@ -38,8 +40,6 @@ namespace GGJ
         [SerializeField, Tooltip("ウルフレイヤー")]
         private GameObject _worfLayer;
 
-        private static List<bool> _playerStateList = new List<bool>(4);
-        
         // InputSystem
         private FukuwaraiControls _fukuwaraiControls;
 
@@ -48,10 +48,10 @@ namespace GGJ
             _fukuwaraiControls = new FukuwaraiControls();
             _fukuwaraiControls.Enable();
             
-            _playerStateList = new List<bool>(4);
+            PlayerStateList = new List<bool>(4);
             for (int i = 0, count = 4; i < count; i++)
             {
-                _playerStateList.Add(false);
+                PlayerStateList.Add(false);
             }
             
             _titleLayer.SetActive(true);
@@ -86,6 +86,7 @@ namespace GGJ
         private void StartGame()
         {
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
+            // TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Result");
         }
         
         private async UniTask WolfCheckAsync(CancellationToken cancellationToken)
@@ -96,41 +97,38 @@ namespace GGJ
             _worfLayer.SetActive(true);
             
             var rindex = UnityEngine.Random.Range(0, 4);
-            _playerStateList[rindex] = true;
+            PlayerStateList[rindex] = true;
 
             // UnityEventを変換
             var buttonEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
+            
+            EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
             
             await OneCheckAsync(cancellationToken, "Player1", 0);
             await OneCheckAsync(cancellationToken, "Player2", 1);
             await OneCheckAsync(cancellationToken, "Player3", 2);
             await OneCheckAsync(cancellationToken, "Player4", 3);
 
-            await UniTask.WhenAny(
-                _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
-                buttonEvent.OnInvokeAsync());
+            await UniTask.WhenAny(buttonEvent.OnInvokeAsync());
             
             async UniTask OneCheckAsync(CancellationToken cancellationToken, string playerName, int index)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 _infoText.SetText($"{playerName}の番です。役を確認してください。");
 
-                await UniTask.WhenAny(
-                    _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
-                    buttonEvent.OnInvokeAsync());
+                var step1Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
+                await UniTask.WhenAny(step1Event.OnInvokeAsync());
             
-                var pType = _playerStateList[index]? "ウルフ": "市民";
+                var pType = PlayerStateList[index]? "ウルフ": "市民";
                 _infoText.SetText($"あなたの役職は{pType}です。\n確認したらボタンを押してください。");
             
-                await UniTask.WhenAny(
-                    _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
-                    buttonEvent.OnInvokeAsync());
+                var step2Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
+                await UniTask.WhenAny(step2Event.OnInvokeAsync());
             }
             
             _infoText.SetText($"準備が整いました！\nボタンを押したらゲームが開始します。");
-            await UniTask.WhenAny(
-                _fukuwaraiControls.UI.Enter.OnPerformedAsync(cancellationToken),
-                buttonEvent.OnInvokeAsync());
+            var stepEndEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
+            await UniTask.WhenAny(stepEndEvent.OnInvokeAsync());
             
             StartGame();
         }
