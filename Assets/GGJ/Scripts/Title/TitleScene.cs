@@ -35,9 +35,6 @@ namespace GGJ
         [SerializeField, Tooltip("NEXTボタン")]
         private Button _nextButton;
         
-        [SerializeField, Tooltip("BGFrame1")]
-        private Transform _titleBgFrame;
-        
         [SerializeField, Tooltip("タイトルレイヤー")]
         private GameObject _titleLayer;
         [SerializeField, Tooltip("ウルフレイヤー")]
@@ -70,10 +67,6 @@ namespace GGJ
             // スタートボタン選択状態
             EventSystem.current.SetSelectedGameObject(_startButton.gameObject);
 
-            _titleBgFrame.DOLocalRotate(new Vector3(0, 0, 720f), 90f, RotateMode.FastBeyond360)
-                .SetEase(Ease.Linear)
-                .SetLoops(-1);
-            
             // 開始ボタン
             _startButton.OnClickAsObservable()
                 .Subscribe(_ =>
