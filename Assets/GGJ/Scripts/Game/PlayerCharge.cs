@@ -1,6 +1,8 @@
-﻿using GGJ.Common;
+﻿using Cysharp.Threading.Tasks;
+using GGJ.Common;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static GamePlayParameterAssetInstaller;
@@ -25,7 +27,16 @@ public class PlayerCharge : MonoBehaviour
 
     private void Start()
     {
-        playerType = GetComponent<PlayerInputManager>().playerType;
+        var inputManager = GetComponent<PlayerInputManager>();
+        playerType = inputManager.playerType;
+
+        inputManager.OnCanceledFireButton
+            .Subscribe(async _ =>
+            {
+                await UniTask.WaitForSeconds(0.1f);
+                chargedTime = 0.0f;
+            })
+            .AddTo(this);
     }
 
     private void Update()

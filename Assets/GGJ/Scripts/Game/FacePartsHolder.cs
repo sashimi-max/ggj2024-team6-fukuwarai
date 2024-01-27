@@ -29,10 +29,14 @@ namespace GGJ.Game
             rectTransform = GetComponent<RectTransform>();
             DoYoYo();
 
-
             playerInputManager
                 .OnPressedFireButton
-                .Subscribe(_ => sequence.Kill())
+                .Subscribe(_ => sequence.Pause())
+                .AddTo(this);
+
+            playerInputManager
+                .OnCanceledFireButton
+                .Subscribe(_ => sequence.Play())
                 .AddTo(this);
         }
 

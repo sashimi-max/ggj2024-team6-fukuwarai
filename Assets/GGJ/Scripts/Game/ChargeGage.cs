@@ -20,7 +20,7 @@ public class ChargeGage : MonoBehaviour
             .Subscribe(_ => slider.enabled = true)
             .AddTo(this);
 
-        playerInputManager.OnPressedFireButton
+        playerInputManager.OnCanceledFireButton
             .Subscribe(_ => slider.enabled = false)
             .AddTo(this);
     }
