@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static GamePlayParameterAssetInstaller;
 
 public class PlayerCharge : MonoBehaviour
 {
     private PlayerType playerType;
+    public GamePlayParameter gamePlayParameter;
 
     public float chargedTime { get; private set; } = 0.0f;
 
     // 0~1の値を行ったり来たり
-    public float normalizedChargedTime => Mathf.PingPong(chargedTime, 3) / 3.0f;
+    public float normalizedChargedTime => Mathf.PingPong(chargedTime, gamePlayParameter.playerChargeSeconds) / gamePlayParameter.playerChargeSeconds;
 
     private FukuwaraiControls inputActions;
 
