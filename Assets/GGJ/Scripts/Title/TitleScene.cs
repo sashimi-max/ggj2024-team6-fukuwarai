@@ -29,9 +29,23 @@ namespace GGJ
         [SerializeField, Tooltip("トランジションプロファイル")]
         private TransitionProfile _starTransitionProfile;
 
-        [SerializeField, Tooltip("テキスト")]
-        private TextMeshProUGUI _infoText;
+        [SerializeField]
+        private GameObject _howTo;
         
+        [SerializeField]
+        private GameObject _p1;
+        [SerializeField]
+        private GameObject _p2;
+        [SerializeField]
+        private GameObject _p3;
+        [SerializeField]
+        private GameObject _p4;
+        [SerializeField]
+        private GameObject _wolfN;
+        [SerializeField]
+        private GameObject _wolfW;
+        [SerializeField]
+        private GameObject _wolfS;
         [SerializeField, Tooltip("NEXTボタン")]
         private Button _nextButton;
         
@@ -45,12 +59,14 @@ namespace GGJ
 
         private bool _startInputBlock = false;
 
+        private bool _isHowTo = false;
+
         private void Awake()
         {
             _fukuwaraiControls = new FukuwaraiControls();
             _fukuwaraiControls.UI.Enter.canceled += (x) =>
             {
-                StartGame();
+                _startButton.onClick.Invoke();
             };
             _fukuwaraiControls.UI.FireI.canceled += (x) =>
             {
@@ -82,6 +98,12 @@ namespace GGJ
             _startButton.OnClickAsObservable()
                 .Subscribe(_ =>
                 {
+                    if (!_isHowTo)
+                    {
+                        _howTo.SetActive(true);
+                        _isHowTo = true;
+                        return;
+                    }
                     StartGame();
                 })
                 .AddTo(gameObject);
@@ -89,11 +111,16 @@ namespace GGJ
             _optionButton.OnClickAsAsyncEnumerable()
                 .SubscribeAwait(async (unit, token)  =>
                 {
+                    if (_isHowTo)
+                    {
+                        return;
+                    }
+
                     await WolfCheckAsync(token);
                 })
                 .AddTo(gameObject);
         }
-
+        
         private void StartGame()
         {
             if (_startInputBlock)
@@ -121,34 +148,45 @@ namespace GGJ
             var rindex = UnityEngine.Random.Range(0, 4);
             PlayerStateList[rindex] = true;
 
-            // UnityEventを変換
-            var buttonEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
-            
             EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
             
-            await OneCheckAsync(cancellationToken, "Player1", 0);
-            await OneCheckAsync(cancellationToken, "Player2", 1);
-            await OneCheckAsync(cancellationToken, "Player3", 2);
-            await OneCheckAsync(cancellationToken, "Player4", 3);
+            await OneCheckAsync(cancellationToken, "Player1", 0, _p1);
+            await OneCheckAsync(cancellationToken, "Player2", 1, _p2);
+            await OneCheckAsync(cancellationToken, "Player3", 2, _p3);
+            await OneCheckAsync(cancellationToken, "Player4", 3, _p4);
 
-            await UniTask.WhenAny(buttonEvent.OnInvokeAsync());
-            
-            async UniTask OneCheckAsync(CancellationToken cancellationToken, string playerName, int index)
+            async UniTask OneCheckAsync(CancellationToken cancellationToken, string playerName, int index, GameObject playerInfo)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                _infoText.SetText($"{playerName}の番です。役を確認してください。");
+                _p1.SetActive(false);
+                _p2.SetActive(false);
+                _p3.SetActive(false);
+                _p4.SetActive(false);
+                _wolfN.SetActive(false);
+                _wolfW.SetActive(false);
+                playerInfo.SetActive(true);
 
                 var step1Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
                 await UniTask.WhenAny(step1Event.OnInvokeAsync());
-            
-                var pType = PlayerStateList[index]? "ウルフ": "市民";
-                _infoText.SetText($"あなたの役職は{pType}です。\n確認したらボタンを押してください。");
+                playerInfo.SetActive(false);
+                if (PlayerStateList[index])
+                {
+                    _wolfW.SetActive(true);
+                }
+                else
+                {
+                    _wolfN.SetActive(true);
+                }
+                
             
                 var step2Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
                 await UniTask.WhenAny(step2Event.OnInvokeAsync());
+                _wolfN.SetActive(false);
+                _wolfW.SetActive(false);
             }
             
-            _infoText.SetText($"準備が整いました！\nボタンを押したらゲームが開始します。");
+            _wolfS.SetActive(true);
+            
             var stepEndEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
             await UniTask.WhenAny(stepEndEvent.OnInvokeAsync());
             
