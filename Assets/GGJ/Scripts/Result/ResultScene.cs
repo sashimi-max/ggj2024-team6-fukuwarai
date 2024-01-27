@@ -36,9 +36,30 @@ namespace GGJ
         [SerializeField, Tooltip("NEXTボタン")]
         private Button  _nextButton;
         
-        [SerializeField, Tooltip("インフォボタン")]
-        private TextMeshProUGUI  _infoText;
+        // [SerializeField, Tooltip("インフォボタン")]
+        // private TextMeshProUGUI  _infoText;
         
+        [SerializeField]
+        private GameObject _mainBtnInfo;
+        
+        [SerializeField]
+        private GameObject _wwin;
+        
+        [SerializeField]
+        private GameObject _nwin;
+        
+        [SerializeField]
+        private GameObject _p1w;
+        
+        [SerializeField]
+        private GameObject _p2w;
+        
+        [SerializeField]
+        private GameObject _p3w;
+        
+        [SerializeField]
+        private GameObject _p4w;
+
         [SerializeField, Tooltip("P1ボタン")]
         private Button  _p1Button;
         
@@ -59,6 +80,13 @@ namespace GGJ
         {
             _fukuwaraiControls = new FukuwaraiControls();
             _fukuwaraiControls.Enable();
+            
+            _wwin.SetActive(false);
+            _nwin.SetActive(false);
+            _p1w.SetActive(false);
+            _p2w.SetActive(false);
+            _p3w.SetActive(false);
+            _p4w.SetActive(false);
         }
 
         // Start is called before the first frame update
@@ -133,8 +161,8 @@ namespace GGJ
         {
             cancellationToken.ThrowIfCancellationRequested();
             
-            _infoText.SetText("ウルフと思われる人を選択して下さい");
-            
+            // _infoText.SetText("ウルフと思われる人を選択して下さい");
+            _mainBtnInfo.SetActive(true);
             _nextButton.gameObject.SetActive(false);
             
             var bp1Event = _p1Button.onClick.GetAsyncEventHandler(cancellationToken);
@@ -164,17 +192,21 @@ namespace GGJ
                 }
             }
             
-            _p1Button.gameObject.SetActive(false);
-            _p2Button.gameObject.SetActive(false);
-            _p3Button.gameObject.SetActive(false);
-            _p4Button.gameObject.SetActive(false);
+            _mainBtnInfo.SetActive(false);
             
             EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
             _nextButton.gameObject.SetActive(true);
-            
-            var winner = isWolfLose? "ウルフ": "市民";
-            _infoText.SetText($"{winner}側の勝利です！\n\nウルフはPlayer{wolfIndex + 1}の方です。");
 
+            // var winner = isWolfLose? "ウルフ": "市民";
+            // _infoText.SetText($"{winner}側の勝利です！\n\nウルフはPlayer{wolfIndex + 1}の方です。");
+
+            _wwin.SetActive(!isWolfLose);
+            _nwin.SetActive(isWolfLose);
+            _p1w.SetActive(wolfIndex == 0);
+            _p2w.SetActive(wolfIndex == 1);
+            _p3w.SetActive(wolfIndex == 2);
+            _p4w.SetActive(wolfIndex == 3);
+            
             var nextEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
             await UniTask.WhenAny(nextEvent.OnInvokeAsync());
             
