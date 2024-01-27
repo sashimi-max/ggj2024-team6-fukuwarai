@@ -63,6 +63,8 @@ namespace GGJ.Game
                 var points = physicsShape.ToArray();
                 polygonCollider2D.SetPath(i, points);
             }
+
+            polygonCollider2D.enabled = false;
         }
 
         private string collidableObjectTypeName(CollidableObjectType collidableObjectType)
