@@ -723,7 +723,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9d83885a-d118-4be1-8ebd-9e6b43bd1985"",
-                    ""path"": ""<Keyboard>/S"",
+                    ""path"": ""<Keyboard>/N"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -756,7 +756,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""26d3a99a-a108-4d20-9874-b0f37f7784b2"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""path"": ""<Keyboard>/C"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -789,7 +789,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fc0f6129-f07f-4518-b7fd-673147b2f5b8"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/A"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -822,7 +822,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9a761a9a-45f0-418d-9a2a-8a4f29fbd9e8"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""path"": ""<Keyboard>/P"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
