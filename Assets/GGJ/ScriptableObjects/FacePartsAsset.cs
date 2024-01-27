@@ -12,6 +12,7 @@ public class FacePartsAsset : ScriptableObject
 public class FaceParts
 {
     public string name = "人間セット";
+    public Sprite wholeFaceSprite;
     public FacePartsData[] facePartsData;
 }
 

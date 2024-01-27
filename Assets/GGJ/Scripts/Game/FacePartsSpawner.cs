@@ -4,6 +4,7 @@ using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GGJ.Game
 {
@@ -13,6 +14,8 @@ namespace GGJ.Game
         private List<FacePartsHolder> facePartsHolders = new List<FacePartsHolder>();
 
         [SerializeField] FacePartsModel FacePartsPrefab = default;
+
+        [SerializeField] Image wholeFaceImage = default;
 
         [SerializeField] FacePartsAsset facePartsAsset = default;
 
@@ -28,6 +31,7 @@ namespace GGJ.Game
         public void SpawnFaceParts(int index)
         {
             var faceParts = facePartsAsset.facePartsSet[index];
+            wholeFaceImage.sprite = faceParts.wholeFaceSprite;
             var offset = Random.Range(0, facePartsHolders.Count);
             for (var i = 0; i < facePartsHolders.Count; i++)
             {

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facePartsSet:
   - name: "\u30C6\u30B9\u30C8\u30BB\u30C3\u30C8"
+    wholeFaceSprite: {fileID: 21300000, guid: 12ef3272e41ab4cde83ce97cdfa471d2, type: 3}
     facePartsData:
     - name: "\u5DE6\u76EE"
       sprite: {fileID: 21300000, guid: 1f0eb9d512dd3417fb3a3354702619b2, type: 3}
