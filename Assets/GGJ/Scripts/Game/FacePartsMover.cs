@@ -10,6 +10,7 @@ namespace GGJ.Game
     [RequireComponent(typeof(Rigidbody2D))]
     public class FacePartsMover : MonoBehaviour
     {
+        [SerializeField] GamePlayParameterAsset gamePlayParameterAsset = default;
         public Rigidbody2D rb { get; private set; }
         private PlayerInputManager playerInputManager;
         private bool isEjected = false;
@@ -27,7 +28,7 @@ namespace GGJ.Game
                 {
                     isEjected = true;
                     transform.parent = transform.parent.parent;
-                    rb.AddRelativeForce(Vector2.up * 4.0f * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
+                    rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
                 })
                 .AddTo(this);
         }

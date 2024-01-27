@@ -106,6 +106,11 @@ namespace GGJ.Game
 
         private void gameOver()
         {
+            movers.ForEach(mover =>
+            {
+                mover.rb.velocity = Vector2.zero;
+                mover.rb.angularVelocity = 0;
+            });
             Debug.Log("gameover!");
             isGameOver = true;
 
