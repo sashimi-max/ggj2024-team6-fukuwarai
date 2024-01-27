@@ -23,6 +23,9 @@ namespace GGJ
     {
         [SerializeField, Tooltip("タイトルに戻るボタン")]
         private Button _returnButton;
+        
+        [SerializeField, Tooltip("もう一回ボタン")]
+        private Button _retryButton;
 
         [SerializeField, Tooltip("ノーマルリザルト")]
         private GameObject _nomalLayer;
@@ -83,6 +86,16 @@ namespace GGJ
                         SceneTitleLoad();
                     })
                     .AddTo(gameObject);
+                // もう一回ボタン
+                _retryButton.OnClickAsObservable()
+                    .Subscribe(_ =>
+                    {
+                        // SceneManager.LoadScene("Game");
+                        SceneReLoad();
+                    })
+                    .AddTo(gameObject);
+
+                ResultAsync(_cancellationToken).Forget();
             }
             else
             {
@@ -91,9 +104,29 @@ namespace GGJ
             }
         }
 
+        private void SceneReLoad()
+        {
+            SceneManager.LoadScene("Game");
+        }
+        
         private void SceneTitleLoad()
         {
             SceneManager.LoadScene("Title");
+        }
+
+        private async UniTask ResultAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var result = await _fukuwaraiControls.UI.Move.OnPerformedAsync<Vector2>(_cancellationToken);
+            if (result.x > 0)
+            {
+                SceneReLoad();
+            }
+            else
+            {
+                SceneTitleLoad();
+            }
         }
 
         private async UniTask WolfResultAsync(CancellationToken cancellationToken)
