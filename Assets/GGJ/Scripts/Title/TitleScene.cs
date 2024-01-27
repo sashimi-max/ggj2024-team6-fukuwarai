@@ -43,9 +43,20 @@ namespace GGJ
         // InputSystem
         private FukuwaraiControls _fukuwaraiControls;
 
+        private bool _startInputBlock = false;
+
         private void Awake()
         {
             _fukuwaraiControls = new FukuwaraiControls();
+            _fukuwaraiControls.UI.Enter.canceled += (x) =>
+            {
+                StartGame();
+            };
+            _fukuwaraiControls.UI.FireI.canceled += (x) =>
+            {
+                // Wolf Mode
+                _optionButton.onClick.Invoke();
+            };
             _fukuwaraiControls.Enable();
             
             PlayerStateList = new List<bool>(4);
@@ -85,12 +96,23 @@ namespace GGJ
 
         private void StartGame()
         {
+            if (_startInputBlock)
+            {
+                return;
+            }
+            _startInputBlock = true;
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
             // TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Result");
         }
         
         private async UniTask WolfCheckAsync(CancellationToken cancellationToken)
         {
+            if (_startInputBlock)
+            {
+                return;
+            }
+
+            _startInputBlock = true;
             cancellationToken.ThrowIfCancellationRequested();
             
             _titleLayer.SetActive(false);
@@ -130,6 +152,7 @@ namespace GGJ
             var stepEndEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
             await UniTask.WhenAny(stepEndEvent.OnInvokeAsync());
             
+            _startInputBlock = false;
             StartGame();
         }
     }
