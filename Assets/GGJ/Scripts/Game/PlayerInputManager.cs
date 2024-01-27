@@ -1,4 +1,5 @@
-﻿using GGJ.Common;
+﻿using Cysharp.Threading.Tasks;
+using GGJ.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ public class PlayerInputManager : MonoBehaviour
     private Subject<Unit> _onCanceledFireButton = new Subject<Unit>();
 
     public bool isFired { get; private set; } = false;
+    private bool canPressedButton = true;
+    private float reenabledTimer = 0.0f;
 
     private const int ABLE_FIRE_COUNT = 2;
     private int currentFireCount = 0;
@@ -47,11 +50,24 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Enable();
     }
 
+    private void Update()
+    {
+        if (!canPressedButton)
+        {
+            reenabledTimer += Time.deltaTime;
+            if (reenabledTimer > 2.0f)
+            {
+                canPressedButton = true;
+            }
+        }
+    }
+
 
     private void OnFireButtonUp(InputAction.CallbackContext context)
     {
-        if (isFired) return;
-
+        if (isFired || !canPressedButton) return;
+        canPressedButton = false;
+        reenabledTimer = 0.0f;
         currentFireCount++;
         if (currentFireCount == ABLE_FIRE_COUNT)
         {
@@ -63,7 +79,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnFireButtonDown(InputAction.CallbackContext context)
     {
-        if (isFired) return;
+        if (isFired || !canPressedButton) return;
         _onPressedFireButton.OnNext(default);
     }
 }
