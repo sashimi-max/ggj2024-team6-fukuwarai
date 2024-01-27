@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Cysharp.Threading.Tasks;
+using GGJ.Common;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
@@ -19,28 +21,71 @@ namespace GGJ.Game
 
         [SerializeField] FacePartsAsset facePartsAsset = default;
 
-        private IEnumerable<FacePartsMover> movers;
+        private List<FacePartsMover> movers;
         private IEnumerable<PlayerInputManager> inputManagers;
         bool isGameOver = false;
+        private FaceParts faceParts;
 
         private void Start()
         {
-            SpawnFaceParts(0);
+            var index = Random.Range(0, facePartsAsset.facePartsSet.Count);
+            faceParts = facePartsAsset.facePartsSet[index];
+            SpawnFaceParts(index);
+
+            foreach (var input in inputManagers)
+            {
+                input.OnCanceledFireButton
+                    .Where(_ => !input.isFired)
+                    .Subscribe(async _ =>
+                    {
+                        await UniTask.WaitForSeconds(2.0f);
+                        SpawnFacePartsBySide(input.playerType);
+                    }).AddTo(this);
+            }
         }
 
         public void SpawnFaceParts(int index)
         {
-            var faceParts = facePartsAsset.facePartsSet[index];
+            var firstEjectedParts = new List<FacePartsData>() {
+                faceParts.downEjectedFacePartsData.First(),
+                faceParts.rightEjectedFacePartsData.First(),
+                faceParts.upEjectedFacePartsData.First(),
+                faceParts.leftEjectedFacePartsData.First(),
+            };
             wholeFaceImage.sprite = faceParts.wholeFaceSprite;
-            var offset = Random.Range(0, facePartsHolders.Count);
             for (var i = 0; i < facePartsHolders.Count; i++)
             {
                 var obj = Instantiate(FacePartsPrefab, facePartsHolders[i].transform);
-                obj.Init(faceParts.facePartsData[(i + offset) % facePartsHolders.Count]);
+                obj.Init(firstEjectedParts[i]);
             }
 
-            movers = facePartsHolders.Select(obj => obj.GetComponentInChildren<FacePartsMover>());
+            movers = facePartsHolders.Select(obj => obj.GetComponentInChildren<FacePartsMover>()).ToList();
             inputManagers = facePartsHolders.Select(obj => obj.GetComponentInParent<PlayerInputManager>());
+        }
+
+        private void SpawnFacePartsBySide(PlayerType playerType)
+        {
+            var holder = facePartsHolders[(int)playerType];
+            var obj = Instantiate(FacePartsPrefab, holder.transform);
+            FacePartsData secondEjectedPart;
+            switch (playerType)
+            {
+                case PlayerType.Player1:
+                    secondEjectedPart = faceParts.downEjectedFacePartsData.Last();
+                    break;
+                case PlayerType.Player2:
+                    secondEjectedPart = faceParts.rightEjectedFacePartsData.Last();
+                    break;
+                case PlayerType.Player3:
+                    secondEjectedPart = faceParts.upEjectedFacePartsData.Last();
+                    break;
+                default:
+                    secondEjectedPart = faceParts.leftEjectedFacePartsData.Last();
+                    break;
+            }
+
+            obj.Init(secondEjectedPart);
+            movers.Add(holder.GetComponentInChildren<FacePartsMover>());
         }
 
         private void FixedUpdate()

@@ -12,6 +12,7 @@ namespace GGJ.Game
     {
         public Rigidbody2D rb { get; private set; }
         private PlayerInputManager playerInputManager;
+        private bool isEjected = false;
 
         // Start is called before the first frame update
         void Start()
@@ -21,7 +22,13 @@ namespace GGJ.Game
             var playerCharge = GetComponentInParent<PlayerCharge>();
 
             playerInputManager.OnCanceledFireButton
-                .Subscribe(_ => rb.AddRelativeForce(Vector2.up * 4.0f * playerCharge.normalizedChargedTime, ForceMode2D.Impulse))
+                .Where(_ => !isEjected)
+                .Subscribe(_ =>
+                {
+                    isEjected = true;
+                    transform.parent = transform.parent.parent;
+                    rb.AddRelativeForce(Vector2.up * 4.0f * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
+                })
                 .AddTo(this);
         }
     }

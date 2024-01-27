@@ -7,7 +7,7 @@ namespace GGJ.Common
     // FIXME: PlayerPositionTypeになってる
     public enum PlayerType
     {
-        Player1,
+        Player1 = 0,
         Player2,
         Player3,
         Player4,

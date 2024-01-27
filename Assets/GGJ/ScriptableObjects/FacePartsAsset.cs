@@ -13,7 +13,10 @@ public class FaceParts
 {
     public string name = "人間セット";
     public Sprite wholeFaceSprite;
-    public FacePartsData[] facePartsData;
+    public FacePartsData[] downEjectedFacePartsData;
+    public FacePartsData[] rightEjectedFacePartsData;
+    public FacePartsData[] upEjectedFacePartsData;
+    public FacePartsData[] leftEjectedFacePartsData;
 }
 
 [System.Serializable]

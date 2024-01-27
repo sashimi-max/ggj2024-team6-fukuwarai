@@ -18,6 +18,9 @@ public class PlayerInputManager : MonoBehaviour
 
     public bool isFired { get; private set; } = false;
 
+    private const int ABLE_FIRE_COUNT = 2;
+    private int currentFireCount = 0;
+
     private void Awake()
     {
         var inputActions = new FukuwaraiControls();
@@ -48,12 +51,19 @@ public class PlayerInputManager : MonoBehaviour
     private void OnFireButtonUp(InputAction.CallbackContext context)
     {
         if (isFired) return;
-        isFired = true;
+
+        currentFireCount++;
+        if (currentFireCount == ABLE_FIRE_COUNT)
+        {
+            isFired = true;
+        }
+
         _onCanceledFireButton.OnNext(default);
     }
 
     private void OnFireButtonDown(InputAction.CallbackContext context)
     {
+        if (isFired) return;
         _onPressedFireButton.OnNext(default);
     }
 }
