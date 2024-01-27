@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static GamePlayParameterAssetInstaller;
 
 public class PlayerCharge : MonoBehaviour
 {
     private PlayerType playerType;
-    public GamePlayParameter gamePlayParameter;
+    [SerializeField] private GamePlayParameterAsset gamePlayParameter = default;
+
 
     public float chargedTime { get; private set; } = 0.0f;
 

@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using static GamePlayParameterAssetInstaller;
 
 namespace GGJ.Game
 {
@@ -12,8 +11,8 @@ namespace GGJ.Game
     {
         protected override bool dontDestroyOnLoad { get { return false; } }
 
-        [SerializeField] GamePlayParameter gamePlayParameter = default;
-
+        [SerializeField] GamePlayParameterAsset gamePlayParameter = default;
+        
         public IReadOnlyReactiveProperty<bool> IsTimeUp => _isTimeUp;
         private BoolReactiveProperty _isTimeUp = new BoolReactiveProperty(false);
 

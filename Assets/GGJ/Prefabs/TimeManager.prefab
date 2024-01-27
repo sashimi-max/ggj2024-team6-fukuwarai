@@ -44,8 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb926001cf708bb4c92d6a135ad299cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gamePlayParameter:
-    remainingTime: 12
-    playerBarMoveTime: 1
-    playerChargeSeconds: 3
+  gamePlayParameter: {fileID: 11400000, guid: a1b49aaac44ad45409850c2737affdad, type: 2}
   remainingTime: 12

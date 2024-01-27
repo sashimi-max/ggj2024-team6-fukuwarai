@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.InputSystem;
-using static GamePlayParameterAssetInstaller;
 using GGJ.Common;
 using UniRx;
 
@@ -12,7 +11,7 @@ namespace GGJ.Game
     [RequireComponent(typeof(RectTransform))]
     public class FacePartsHolder : MonoBehaviour
     {
-        [SerializeField] private GamePlayParameter gamePlayParameter = default;
+        [SerializeField] private GamePlayParameterAsset gamePlayParameter = default;
 
         private PlayerInputManager playerInputManager;
 

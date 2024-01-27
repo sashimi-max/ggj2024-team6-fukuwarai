@@ -17,29 +17,29 @@ MonoBehaviour:
     wholeFaceSprite: {fileID: 21300000, guid: c7fda7287e8214fbcb904dcbc99dde05, type: 3}
     downEjectedFacePartsData:
     - name: "\u53F3\u76EE"
-      sprite: {fileID: 21300000, guid: a9f5606ffd6fb418c96349765ccd2dca, type: 3}
-      drag: 0.5
+      sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
+      drag: 0.75
     - name: "\u53F3\u77B3"
-      sprite: {fileID: 21300000, guid: 100f0ef7f32634ea9a55cbbed737126a, type: 3}
-      drag: 0.5
+      sprite: {fileID: 21300000, guid: 26696a24f7b0d421eb6d7c77481030ce, type: 3}
+      drag: 0.75
     rightEjectedFacePartsData:
     - name: "\u53F3\u7709"
       sprite: {fileID: 21300000, guid: b2123b02f5be14986ba607163e0ca8b3, type: 3}
-      drag: 0.5
+      drag: 0.75
     - name: "\u53F3\u89D2"
       sprite: {fileID: 21300000, guid: 51e33b9d3eeba4998973911e9748d872, type: 3}
-      drag: 0.5
+      drag: 0.75
     upEjectedFacePartsData:
     - name: "\u5DE6\u7709"
       sprite: {fileID: 21300000, guid: ae5117fafc8254f65b2f77bdfd0e38e9, type: 3}
-      drag: 0.5
+      drag: 0.75
     - name: "\u5DE6\u89D2"
       sprite: {fileID: 21300000, guid: 31d1f3c8671f14d97acd4a66b6f6b025, type: 3}
-      drag: 0.5
+      drag: 0.75
     leftEjectedFacePartsData:
     - name: "\u5DE6\u76EE"
-      sprite: {fileID: 21300000, guid: 55f9d6e6b7e9a443ea71857e1f3fc017, type: 3}
-      drag: 0.5
+      sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
+      drag: 0.75
     - name: "\u5DE6\u77B3"
-      sprite: {fileID: 21300000, guid: 3069ab94b77e645e39ea452cbaa6fb8c, type: 3}
-      drag: 0.5
+      sprite: {fileID: 21300000, guid: 26696a24f7b0d421eb6d7c77481030ce, type: 3}
+      drag: 0.75
