@@ -18,7 +18,7 @@ namespace GGJ.Game
         {
             rectTransform = GetComponent<RectTransform>();
             rb = GetComponent<Rigidbody2D>();
-            var playerType = GetComponentInParent<FacePartsHolder>().playerType;
+            var playerType = GetComponentInParent<PlayerInputManager>().playerType;
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             switch (playerType)
             {

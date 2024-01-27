@@ -16,6 +16,7 @@ namespace GGJ.Game
         [SerializeField] FacePartsAsset facePartsAsset = default;
 
         private IEnumerable<FacePartsMover> movers;
+        private IEnumerable<PlayerInputManager> inputManagers;
         bool isGameOver = false;
 
         private void Start()
@@ -34,13 +35,14 @@ namespace GGJ.Game
             }
 
             movers = facePartsHolders.Select(obj => obj.GetComponentInChildren<FacePartsMover>());
+            inputManagers = facePartsHolders.Select(obj => obj.GetComponentInParent<PlayerInputManager>());
         }
 
         private void FixedUpdate()
         {
-            if (isGameOver || movers == null || movers.Count() == 0) return;
+            if (isGameOver || movers == null || movers.Count() == 0 || inputManagers == null || inputManagers.Count() == 0) return;
 
-            var allFireds = movers.All(mover => mover.isFired);
+            var allFireds = inputManagers.All(inputs => inputs.isFired);
 
             if (!allFireds) return;
 

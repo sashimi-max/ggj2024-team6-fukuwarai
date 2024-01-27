@@ -11,44 +11,18 @@ namespace GGJ.Game
     public class FacePartsMover : MonoBehaviour
     {
         public Rigidbody2D rb { get; private set; }
-        public bool isFired { get; private set; } = false;
-
-        private void Awake()
-        {
-            var playerType = GetComponentInParent<FacePartsHolder>().playerType;
-
-            var inputActions = new FukuwaraiControls();
-
-            switch (playerType)
-            {
-                case PlayerType.Player1:
-                    inputActions.Game.Fire.canceled += OnFireButtonUp;
-                    break;
-                case PlayerType.Player2:
-                    inputActions.Game.Fire2.canceled += OnFireButtonUp;
-                    break;
-                case PlayerType.Player3:
-                    inputActions.Game.Fire3.canceled += OnFireButtonUp;
-                    break;
-                default:
-                    inputActions.Game.Fire4.canceled += OnFireButtonUp;
-                    break;
-            }
-            inputActions.Enable();
-        }
+        private PlayerInputManager playerInputManager;
 
         // Start is called before the first frame update
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
-        }
+            playerInputManager = GetComponentInParent<PlayerInputManager>();
+            var playerCharge = GetComponentInParent<PlayerCharge>();
 
-        private void OnFireButtonUp(InputAction.CallbackContext context)
-        {
-            if (isFired) return;
-
-            rb.AddRelativeForce(Vector2.up * 4.0f, ForceMode2D.Impulse);
-            isFired = true;
+            playerInputManager.OnCanceledFireButton
+                .Subscribe(_ => rb.AddRelativeForce(Vector2.up * 4.0f * playerCharge.normalizedChargedTime, ForceMode2D.Impulse))
+                .AddTo(this);
         }
     }
 }
