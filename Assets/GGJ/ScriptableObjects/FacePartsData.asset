@@ -51,3 +51,41 @@ MonoBehaviour:
       sprite: {fileID: 21300000, guid: 26696a24f7b0d421eb6d7c77481030ce, type: 3}
       collidableObjectType: 2
       drag: 0.75
+  - name: "\u7F8E\u5C11\u5973\u30BB\u30C3\u30C8"
+    wholeFaceSprite: {fileID: 21300000, guid: 33b6c127a5902e14cb1ac8e021105730, type: 3}
+    downEjectedFacePartsData:
+    - name: "\u53F3\u77B3"
+      sprite: {fileID: 21300000, guid: 4be752620794f044ca5c4a7c348d8039, type: 3}
+      collidableObjectType: 2
+      drag: 0.75
+    - name: "\u5DE6\u77B3"
+      sprite: {fileID: 21300000, guid: 2cc83229f782abe42b67872f86f834c0, type: 3}
+      collidableObjectType: 2
+      drag: 0.75
+    rightEjectedFacePartsData:
+    - name: "\u5DE6\u7709"
+      sprite: {fileID: 21300000, guid: 54533bdacc320b94381a08ac7c8d730b, type: 3}
+      collidableObjectType: 0
+      drag: 0.75
+    - name: "\u53E3"
+      sprite: {fileID: 21300000, guid: 4b91111bb060c264285e98077c27cae3, type: 3}
+      collidableObjectType: 0
+      drag: 0.75
+    upEjectedFacePartsData:
+    - name: "\u53F3\u76EE"
+      sprite: {fileID: 21300000, guid: 87280c4e3f33d874a90cb3b8282c3886, type: 3}
+      collidableObjectType: 1
+      drag: 0.75
+    - name: "\u5DE6\u76EE"
+      sprite: {fileID: 21300000, guid: c0012a8fc447d804082d1aad5a29c702, type: 3}
+      collidableObjectType: 1
+      drag: 0.75
+    leftEjectedFacePartsData:
+    - name: "\u5DE6\u76EE"
+      sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
+      collidableObjectType: 1
+      drag: 0.75
+    - name: "\u5DE6\u77B3"
+      sprite: {fileID: 21300000, guid: 26696a24f7b0d421eb6d7c77481030ce, type: 3}
+      collidableObjectType: 2
+      drag: 0.75
