@@ -30,7 +30,7 @@ namespace GGJ.Game
         {
             var index = Random.Range(0, facePartsAsset.facePartsSet.Count);
             faceParts = facePartsAsset.facePartsSet[index];
-            SpawnFaceParts(index);
+            SpawnFaceParts();
 
             foreach (var input in inputManagers)
             {
@@ -44,7 +44,7 @@ namespace GGJ.Game
             }
         }
 
-        public void SpawnFaceParts(int index)
+        public void SpawnFaceParts()
         {
             var firstEjectedParts = new List<FacePartsData>() {
                 faceParts.downEjectedFacePartsData.First(),

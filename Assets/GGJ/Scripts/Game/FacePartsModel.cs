@@ -43,6 +43,12 @@ namespace GGJ.Game
             spriteRenderer.sprite = facePartsData.sprite;
             rb.drag = facePartsData.drag;
 
+            gameObject.layer = LayerMask.NameToLayer(collidableObjectTypeName(facePartsData.collidableObjectType));
+            if (facePartsData.collidableObjectType == CollidableObjectType.BlackEyeObject)
+            {
+                spriteRenderer.sortingOrder = 2;
+            }
+
             var sprite = spriteRenderer.sprite;
             var physicsShapeCount = sprite.GetPhysicsShapeCount();
 
@@ -56,6 +62,19 @@ namespace GGJ.Game
                 sprite.GetPhysicsShape(i, physicsShape);
                 var points = physicsShape.ToArray();
                 polygonCollider2D.SetPath(i, points);
+            }
+        }
+
+        private string collidableObjectTypeName(CollidableObjectType collidableObjectType)
+        {
+            switch (collidableObjectType)
+            {
+                case CollidableObjectType.WhiteEyeObject:
+                    return "WhiteEyeObject";
+                case CollidableObjectType.BlackEyeObject:
+                    return "BlackEyeObject";
+                default:
+                    return "EverythingCollidableObject";
             }
         }
     }

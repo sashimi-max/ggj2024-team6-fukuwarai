@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GGJ.Game;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,5 +25,6 @@ public class FacePartsData
 {
     public string name;
     public Sprite sprite;
+    public CollidableObjectType collidableObjectType;
     public float drag = 1.0f;
 }
