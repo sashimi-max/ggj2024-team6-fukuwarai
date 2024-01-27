@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.InputSystem;
 using GGJ.Common;
 using UniRx;
+using KanKikuchi.AudioManager;
 
 namespace GGJ.Game
 {
@@ -30,7 +31,11 @@ namespace GGJ.Game
 
             playerInputManager
                 .OnPressedFireButton
-                .Subscribe(_ => sequence.Pause())
+                .Subscribe(_ =>
+                {
+                    SEManager.Instance.Play(AudioRandomContainer.Instance.RandomSE(SEPath.SE_FACE_SELECT1, SEPath.SE_FACE_SELECT2, SEPath.SE_FACE_SELECT3));
+                    sequence.Pause();
+                })
                 .AddTo(this);
 
             playerInputManager

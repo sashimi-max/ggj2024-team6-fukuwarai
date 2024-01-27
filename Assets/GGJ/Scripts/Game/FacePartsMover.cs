@@ -1,4 +1,5 @@
 ﻿using GGJ.Common;
+using KanKikuchi.AudioManager;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -28,6 +29,8 @@ namespace GGJ.Game
                 .Where(_ => !isEjected)
                 .Subscribe(_ =>
                 {
+                    SEManager.Instance.Stop(SEPath.SE_GAUGE);
+                    SEManager.Instance.Play(AudioRandomContainer.Instance.RandomSE(SEPath.SE_FACE_RELEASE1, SEPath.SE_FACE_RELEASE2));
                     polygonCollider2D.enabled = true;
                     isEjected = true;
                     transform.parent = transform.parent.parent;

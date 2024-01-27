@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using KanKikuchi.AudioManager;
+using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -22,7 +23,11 @@ public class ChargeGage : MonoBehaviour
         view.gameObject.SetActive(false);
         playerInputManager = GetComponentInParent<PlayerInputManager>();
         playerInputManager.OnPressedFireButton
-            .Subscribe(_ => view.gameObject.SetActive(true))
+            .Subscribe(_ =>
+            {
+                SEManager.Instance.Play(SEPath.SE_GAUGE, isLoop: true);
+                view.gameObject.SetActive(true);
+            })
             .AddTo(this);
 
         playerInputManager.OnCanceledFireButton
