@@ -13,6 +13,7 @@ using DG.Tweening;
 using TMPro;
 using TransitionsPlus;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace GGJ
 {
@@ -32,6 +33,9 @@ namespace GGJ
         
         [SerializeField, Tooltip("ウルフレイヤー")]
         private GameObject _wolfLayer;
+        
+        [SerializeField]
+        private GameObject _credit;
 
         [SerializeField, Tooltip("NEXTボタン")]
         private Button  _nextButton;
@@ -122,6 +126,7 @@ namespace GGJ
                         SceneReLoad();
                     })
                     .AddTo(gameObject);
+                _fukuwaraiControls.Game.Fire4.canceled += ChangeCredit;
 
                 ResultAsync(_cancellationToken).Forget();
             }
@@ -130,6 +135,16 @@ namespace GGJ
                 _cancellationToken = new CancellationToken();
                 WolfResultAsync(_cancellationToken).Forget();
             }
+        }
+
+        private void OnDestroy()
+        {
+            _fukuwaraiControls.Game.Fire4.canceled -= ChangeCredit;
+        }
+
+        private void ChangeCredit(InputAction.CallbackContext content)
+        {
+            _credit.SetActive(!_credit.activeSelf);
         }
 
         private void SceneReLoad()
