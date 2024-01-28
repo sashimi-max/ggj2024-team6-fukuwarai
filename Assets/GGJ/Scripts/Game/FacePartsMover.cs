@@ -34,7 +34,7 @@ namespace GGJ.Game
                     polygonCollider2D.enabled = true;
                     isEjected = true;
                     transform.parent = transform.parent.parent;
-                    rb.velocity = transform.up * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 0.8f);
+                    rb.velocity = transform.up * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 1.0f);
                     //rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
                 })
                 .AddTo(this);

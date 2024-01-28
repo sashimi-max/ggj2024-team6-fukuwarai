@@ -15,4 +15,4 @@ MonoBehaviour:
   remainingTime: 32
   playerBarMoveTime: 1.5
   playerChargeSeconds: 1.5
-  playerFirePower: 32
+  playerFirePower: 36
