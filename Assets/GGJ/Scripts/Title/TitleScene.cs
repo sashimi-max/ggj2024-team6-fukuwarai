@@ -33,6 +33,8 @@ namespace GGJ
         private GameObject _howTo;
 
         [SerializeField]
+        private GameObject _howToW;
+        [SerializeField]
         private GameObject _p1;
         [SerializeField]
         private GameObject _p2;
@@ -167,6 +169,13 @@ namespace GGJ
 
             EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
 
+            _howToW.SetActive(true);
+                
+            var step0Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
+            await UniTask.WhenAny(step0Event.OnInvokeAsync());
+            
+            _howToW.SetActive(false);
+            
             await OneCheckAsync(cancellationToken, "Player1", 0, _p1);
             await OneCheckAsync(cancellationToken, "Player2", 1, _p2);
             await OneCheckAsync(cancellationToken, "Player3", 2, _p3);
@@ -181,6 +190,7 @@ namespace GGJ
                 _p4.SetActive(false);
                 _wolfN.SetActive(false);
                 _wolfW.SetActive(false);
+                
                 playerInfo.SetActive(true);
 
                 var step1Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
