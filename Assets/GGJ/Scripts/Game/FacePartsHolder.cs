@@ -27,7 +27,13 @@ namespace GGJ.Game
             var parentRectTransform = transform.parent.GetComponent<RectTransform>();
             width = parentRectTransform.sizeDelta.x;
             rectTransform = GetComponent<RectTransform>();
-            DoYoYo();
+            // if (true)
+            // {
+            // }
+            // else
+            // {
+                DoYoYo();
+            // }
 
             playerInputManager
                 .OnPressedFireButton
