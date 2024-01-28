@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: GamePlayParameterData
   m_EditorClassIdentifier: 
   remainingTime: 32
-  playerBarMoveTime: 1
-  playerChargeSeconds: 0.5
+  playerBarMoveTime: 1.5
+  playerChargeSeconds: 1.5
+  playerFirePower: 32
