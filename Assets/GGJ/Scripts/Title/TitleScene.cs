@@ -113,6 +113,7 @@ namespace GGJ
                         _isHowTo = true;
                         return;
                     }
+
                     StartGame();
                 })
                 .AddTo(gameObject);
@@ -159,6 +160,7 @@ namespace GGJ
                 return;
             }
 
+            SEManager.Instance.Play(SEPath.SE_WOLF_START);
             _startInputBlock = true;
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -219,6 +221,7 @@ namespace GGJ
             await UniTask.WhenAny(stepEndEvent.OnInvokeAsync());
 
             _startInputBlock = false;
+
             StartGame();
         }
     }
