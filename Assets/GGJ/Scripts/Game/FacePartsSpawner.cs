@@ -23,6 +23,7 @@ namespace GGJ.Game
 
         [SerializeField] GameObject nomalBg = default;
         [SerializeField] GameObject resultBg = default;
+        [SerializeField] GameObject buttons = default;
         
         private List<FacePartsMover> movers;
         private IEnumerable<PlayerInputManager> inputManagers;
@@ -117,6 +118,7 @@ namespace GGJ.Game
             Debug.Log("gameover!");
             isGameOver = true;
 
+            buttons.SetActive(false);
             nomalBg.SetActive(false);
             resultBg.SetActive(true);
             SceneManager.LoadScene("Result", LoadSceneMode.Additive);
