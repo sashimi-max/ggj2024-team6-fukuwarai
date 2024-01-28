@@ -41,7 +41,7 @@ namespace GGJ.Game
         {
             rectTransform.anchoredPosition = Vector2.zero;
             spriteRenderer.sprite = facePartsData.sprite;
-            rb.drag = facePartsData.drag;
+            rb.drag = 5;
 
             gameObject.layer = LayerMask.NameToLayer(collidableObjectTypeName(facePartsData.collidableObjectType));
             if (facePartsData.collidableObjectType == CollidableObjectType.BlackEyeObject)

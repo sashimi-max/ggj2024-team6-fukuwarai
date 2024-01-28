@@ -34,9 +34,19 @@ namespace GGJ.Game
                     polygonCollider2D.enabled = true;
                     isEjected = true;
                     transform.parent = transform.parent.parent;
-                    rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
+                    rb.velocity = transform.up * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 0.8f);
+                    //rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
                 })
                 .AddTo(this);
+        }
+
+        private void FixedUpdate()
+        {
+            if (rb.velocity.magnitude < 0.25f && rb.velocity.magnitude > float.Epsilon)
+            {
+                rb.velocity = Vector2.zero;
+                rb.angularVelocity = 0;
+            }
         }
     }
 }

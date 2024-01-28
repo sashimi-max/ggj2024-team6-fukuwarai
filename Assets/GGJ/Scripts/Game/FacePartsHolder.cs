@@ -51,6 +51,7 @@ namespace GGJ.Game
             sequence
                 .Append(rectTransform.DOAnchorPos(new Vector3(width, 0, 0), gamePlayParameter.playerBarMoveTime))
                 .Append(rectTransform.DOAnchorPos(new Vector3(0, 0, 0), gamePlayParameter.playerBarMoveTime))
+                .SetEase(Ease.Linear)
                 .SetLoops(-1)
                 .Play();
         }
