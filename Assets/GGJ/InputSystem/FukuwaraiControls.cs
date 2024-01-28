@@ -152,6 +152,15 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""C"",
+                    ""type"": ""Button"",
+                    ""id"": ""7990e453-34bd-4918-a1ba-d3c1091b0b8e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -770,6 +779,17 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                     ""action"": ""FireW"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4a6367a-bf65-4747-9fbb-dcf7b9d66deb"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""C"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1013,6 +1033,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_FireI = m_UI.FindAction("FireI", throwIfNotFound: true);
         m_UI_FireW = m_UI.FindAction("FireW", throwIfNotFound: true);
+        m_UI_C = m_UI.FindAction("C", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Fire = m_Game.FindAction("Fire", throwIfNotFound: true);
@@ -1094,6 +1115,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_FireI;
     private readonly InputAction m_UI_FireW;
+    private readonly InputAction m_UI_C;
     public struct UIActions
     {
         private @FukuwaraiControls m_Wrapper;
@@ -1112,6 +1134,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @FireI => m_Wrapper.m_UI_FireI;
         public InputAction @FireW => m_Wrapper.m_UI_FireW;
+        public InputAction @C => m_Wrapper.m_UI_C;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1163,6 +1186,9 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             @FireW.started += instance.OnFireW;
             @FireW.performed += instance.OnFireW;
             @FireW.canceled += instance.OnFireW;
+            @C.started += instance.OnC;
+            @C.performed += instance.OnC;
+            @C.canceled += instance.OnC;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1209,6 +1235,9 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             @FireW.started -= instance.OnFireW;
             @FireW.performed -= instance.OnFireW;
             @FireW.canceled -= instance.OnFireW;
+            @C.started -= instance.OnC;
+            @C.performed -= instance.OnC;
+            @C.canceled -= instance.OnC;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1348,6 +1377,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnFireI(InputAction.CallbackContext context);
         void OnFireW(InputAction.CallbackContext context);
+        void OnC(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {

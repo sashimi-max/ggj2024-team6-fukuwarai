@@ -81,6 +81,7 @@ namespace GGJ
         private FukuwaraiControls _fukuwaraiControls;
         private CancellationToken _cancellationToken;
         private bool isLoaded = false;
+        private bool isMover = false;
 
         private void Awake()
         {
@@ -115,9 +116,10 @@ namespace GGJ
                 _returnButton.OnClickAsAsyncEnumerable()
                     .SubscribeAwait(async _ =>
                     {
+                        isMover = true;
                         // SceneManager.LoadScene("Game");
                         SEManager.Instance.Play(SEPath.SE_RETURN_TITLE);
-                        await UniTask.WaitForSeconds(2.3f);
+                        await UniTask.WaitForSeconds(2.1f);
                         SceneTitleLoad();
                     })
                     .AddTo(gameObject);
@@ -125,13 +127,14 @@ namespace GGJ
                 _retryButton.OnClickAsAsyncEnumerable()
                     .SubscribeAwait(async _ =>
                     {
+                        isMover = true;
                         // SceneManager.LoadScene("Game");
                         SEManager.Instance.Play(SEPath.SE_RESTART);
-                        await UniTask.WaitForSeconds(3.6f);
+                        await UniTask.WaitForSeconds(2.9f);
                         SceneReLoad();
                     })
                     .AddTo(gameObject);
-                _fukuwaraiControls.Game.Fire4.canceled += ChangeCredit;
+                _fukuwaraiControls.UI.C.canceled += ChangeCredit;
 
                 ResultAsync(_cancellationToken).Forget();
             }
@@ -144,11 +147,15 @@ namespace GGJ
 
         private void OnDestroy()
         {
-            _fukuwaraiControls.Game.Fire4.canceled -= ChangeCredit;
+            _fukuwaraiControls.UI.C.canceled -= ChangeCredit;
         }
 
         private void ChangeCredit(InputAction.CallbackContext content)
         {
+            if (isMover)
+            {
+                return;
+            }
             _credit.SetActive(!_credit.activeSelf);
         }
 
@@ -171,8 +178,7 @@ namespace GGJ
             cancellationToken.ThrowIfCancellationRequested();
 
             var result = await _fukuwaraiControls.UI.Move.OnPerformedAsync<Vector2>(_cancellationToken);
-
-            if (isLoaded) return;
+            if (isLoaded || isMover) return;
 
             if (result.x > 0)
             {
