@@ -62,7 +62,7 @@ namespace GGJ.Game
             }
         }
 
-        public void OnCollisionEnter(Collision collision)
+        public void OnCollisionEnter2D()
         {
             SEManager.Instance.Play(AudioRandomContainer.Instance.RandomSE(SEPath.SE_CRUSH1, SEPath.SE_CRUSH2, SEPath.SE_CRUSH3, SEPath.SE_CRUSH4, SEPath.SE_CRUSH5, SEPath.SE_CRUSH6, SEPath.SE_CRUSH7, SEPath.SE_CRUSH8, SEPath.SE_CRUSH9));
         }

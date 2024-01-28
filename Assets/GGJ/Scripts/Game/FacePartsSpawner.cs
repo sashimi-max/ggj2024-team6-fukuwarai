@@ -118,6 +118,7 @@ namespace GGJ.Game
                 mover.rb.velocity = Vector2.zero;
                 mover.rb.angularVelocity = 0;
             });
+            BGMManager.Instance.Stop();
             Debug.Log("gameover!");
             isGameOver = true;
 
