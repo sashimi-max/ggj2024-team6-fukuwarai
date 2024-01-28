@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using GGJ.Common;
 using UniRx;
 using KanKikuchi.AudioManager;
+using UnityEngine.SceneManagement;
 
 namespace GGJ.Game
 {
@@ -27,13 +28,19 @@ namespace GGJ.Game
             var parentRectTransform = transform.parent.GetComponent<RectTransform>();
             width = parentRectTransform.sizeDelta.x;
             rectTransform = GetComponent<RectTransform>();
-            // if (true)
-            // {
-            // }
-            // else
-            // {
+
+            if (SceneManager.GetActiveScene().name == "Game2")
+            {
+                sequence = DOTween.Sequence();
+                sequence.Append(
+                    parentRectTransform.DOLocalRotate(new Vector3(0, 0, 360), 3f, RotateMode.FastBeyond360)
+                        .SetEase(Ease.Linear)
+                ).SetLoops(-1).Play();
+            }
+            else
+            {
                 DoYoYo();
-            // }
+            }
 
             playerInputManager
                 .OnPressedFireButton
@@ -55,9 +62,8 @@ namespace GGJ.Game
             sequence = DOTween.Sequence();
 
             sequence
-                .Append(rectTransform.DOAnchorPos(new Vector3(width, 0, 0), gamePlayParameter.playerBarMoveTime))
-                .Append(rectTransform.DOAnchorPos(new Vector3(0, 0, 0), gamePlayParameter.playerBarMoveTime))
-                .SetEase(Ease.Linear)
+                .Append(rectTransform.DOAnchorPos(new Vector3(width, 0, 0), gamePlayParameter.playerBarMoveTime).SetEase(Ease.Linear))
+                .Append(rectTransform.DOAnchorPos(new Vector3(0, 0, 0), gamePlayParameter.playerBarMoveTime).SetEase(Ease.Linear))
                 .SetLoops(-1)
                 .Play();
         }

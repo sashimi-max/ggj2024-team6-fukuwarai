@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace GGJ.Game
 {
@@ -12,6 +13,7 @@ namespace GGJ.Game
     public class FacePartsMover : MonoBehaviour
     {
         [SerializeField] GamePlayParameterAsset gamePlayParameterAsset = default;
+        [SerializeField] Transform _view;
         public Rigidbody2D rb { get; private set; }
         private PolygonCollider2D polygonCollider2D;
         private PlayerInputManager playerInputManager;
@@ -33,8 +35,14 @@ namespace GGJ.Game
                     SEManager.Instance.Play(AudioRandomContainer.Instance.RandomSE(SEPath.SE_FACE_RELEASE1, SEPath.SE_FACE_RELEASE2));
                     polygonCollider2D.enabled = true;
                     isEjected = true;
+                    var moveTrans = transform.up;
+                    Debug.Log($"moveTrans:{moveTrans}");
                     transform.parent = transform.parent.parent;
-                    rb.velocity = transform.up * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 1.0f);
+                    if (SceneManager.GetActiveScene().name == "Game2")
+                    {
+                        transform.parent = transform.parent.parent;
+                    }
+                    rb.velocity = moveTrans * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 1.0f);
                     //rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
                 })
                 .AddTo(this);
@@ -46,6 +54,11 @@ namespace GGJ.Game
             {
                 rb.velocity = Vector2.zero;
                 rb.angularVelocity = 0;
+            }
+
+            if (!isEjected && SceneManager.GetActiveScene().name == "Game2")
+            {
+                _view.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
     }

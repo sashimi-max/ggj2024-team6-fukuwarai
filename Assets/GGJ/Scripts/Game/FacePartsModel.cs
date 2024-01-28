@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace GGJ.Game
@@ -20,19 +21,22 @@ namespace GGJ.Game
             rb = GetComponent<Rigidbody2D>();
             var playerType = GetComponentInParent<PlayerInputManager>().playerType;
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            switch (playerType)
+            if (SceneManager.GetActiveScene().name != "Game2")
             {
-                case PlayerType.Player1:
-                    break;
-                case PlayerType.Player2:
-                    spriteRenderer.gameObject.transform.LookAt(Vector3.left);
-                    break;
-                case PlayerType.Player3:
-                    spriteRenderer.gameObject.transform.LookAt(Vector3.down);
-                    break;
-                default:
-                    spriteRenderer.gameObject.transform.LookAt(Vector3.right);
-                    break;
+                switch (playerType)
+                {
+                    case PlayerType.Player1:
+                        break;
+                    case PlayerType.Player2:
+                        spriteRenderer.gameObject.transform.LookAt(Vector3.left);
+                        break;
+                    case PlayerType.Player3:
+                        spriteRenderer.gameObject.transform.LookAt(Vector3.down);
+                        break;
+                    default:
+                        spriteRenderer.gameObject.transform.LookAt(Vector3.right);
+                        break;
+                }
             }
             polygonCollider2D = GetComponent<PolygonCollider2D>();
         }

@@ -68,10 +68,14 @@ namespace GGJ
             {
                 _startButton.onClick.Invoke();
             };
-            _fukuwaraiControls.UI.FireI.canceled += (x) =>
+            _fukuwaraiControls.UI.FireW.canceled += (x) =>
             {
                 // Wolf Mode
                 _optionButton.onClick.Invoke();
+            };
+            _fukuwaraiControls.UI.FireI.canceled += (x) =>
+            {
+                StartGame2();
             };
             _fukuwaraiControls.Enable();
             
@@ -129,7 +133,16 @@ namespace GGJ
             }
             _startInputBlock = true;
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
-            // TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Result");
+        }
+        
+        private void StartGame2()
+        {
+            if (_startInputBlock)
+            {
+                return;
+            }
+            _startInputBlock = true;
+            TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game2");
         }
         
         private async UniTask WolfCheckAsync(CancellationToken cancellationToken)

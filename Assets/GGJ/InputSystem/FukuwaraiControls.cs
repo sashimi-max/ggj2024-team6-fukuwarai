@@ -143,6 +143,15 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FireW"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd0fa545-1ab2-43e8-a5ec-7812e68dc177"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -739,6 +748,28 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                     ""action"": ""FireI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0dc853d9-8e97-43d0-8220-8f51de0a8974"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83bd85d5-2207-49a3-81d3-9ba9f4b6b892"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FireW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -981,6 +1012,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_FireI = m_UI.FindAction("FireI", throwIfNotFound: true);
+        m_UI_FireW = m_UI.FindAction("FireW", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Fire = m_Game.FindAction("Fire", throwIfNotFound: true);
@@ -1061,6 +1093,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Click;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_FireI;
+    private readonly InputAction m_UI_FireW;
     public struct UIActions
     {
         private @FukuwaraiControls m_Wrapper;
@@ -1078,6 +1111,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @FireI => m_Wrapper.m_UI_FireI;
+        public InputAction @FireW => m_Wrapper.m_UI_FireW;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1126,6 +1160,9 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             @FireI.started += instance.OnFireI;
             @FireI.performed += instance.OnFireI;
             @FireI.canceled += instance.OnFireI;
+            @FireW.started += instance.OnFireW;
+            @FireW.performed += instance.OnFireW;
+            @FireW.canceled += instance.OnFireW;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1169,6 +1206,9 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             @FireI.started -= instance.OnFireI;
             @FireI.performed -= instance.OnFireI;
             @FireI.canceled -= instance.OnFireI;
+            @FireW.started -= instance.OnFireW;
+            @FireW.performed -= instance.OnFireW;
+            @FireW.canceled -= instance.OnFireW;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1307,6 +1347,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         void OnClick(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnFireI(InputAction.CallbackContext context);
+        void OnFireW(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {

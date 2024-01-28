@@ -121,6 +121,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "FireW",
+                    "type": "Button",
+                    "id": "bd0fa545-1ab2-43e8-a5ec-7812e68dc177",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -715,6 +724,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "FireI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0dc853d9-8e97-43d0-8220-8f51de0a8974",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83bd85d5-2207-49a3-81d3-9ba9f4b6b892",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireW",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
