@@ -54,8 +54,8 @@ MonoBehaviour:
   - name: "\u7F8E\u5C11\u5973\u30BB\u30C3\u30C8"
     wholeFaceSprite: {fileID: 21300000, guid: 33b6c127a5902e14cb1ac8e021105730, type: 3}
     downEjectedFacePartsData:
-    - name: "\u53F3\u76EE"
-      sprite: {fileID: 21300000, guid: 8b46c6c8a54914e9693d09f760b336e0, type: 3}
+    - name: "\u5DE6\u76EE"
+      sprite: {fileID: 21300000, guid: 53ae93fcd64394023adc78d0c0107341, type: 3}
       collidableObjectType: 2
       drag: 0.75
     - name: "\u306F\u306A"
