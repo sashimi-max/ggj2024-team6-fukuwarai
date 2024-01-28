@@ -14,6 +14,7 @@ using TMPro;
 using TransitionsPlus;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks.Linq;
 
 namespace GGJ
 {
@@ -79,6 +80,7 @@ namespace GGJ
         // InputSystem
         private FukuwaraiControls _fukuwaraiControls;
         private CancellationToken _cancellationToken;
+        private bool isLoaded = false;
 
         private void Awake()
         {
@@ -110,20 +112,22 @@ namespace GGJ
                 EventSystem.current.SetSelectedGameObject(_returnButton.gameObject);
 
                 // タイトル戻るボタン
-                _returnButton.OnClickAsObservable()
-                    .Subscribe(_ =>
+                _returnButton.OnClickAsAsyncEnumerable()
+                    .SubscribeAwait(async _ =>
                     {
                         // SceneManager.LoadScene("Game");
                         SEManager.Instance.Play(SEPath.SE_RETURN_TITLE);
+                        await UniTask.WaitForSeconds(2.3f);
                         SceneTitleLoad();
                     })
                     .AddTo(gameObject);
                 // もう一回ボタン
-                _retryButton.OnClickAsObservable()
-                    .Subscribe(_ =>
+                _retryButton.OnClickAsAsyncEnumerable()
+                    .SubscribeAwait(async _ =>
                     {
                         // SceneManager.LoadScene("Game");
                         SEManager.Instance.Play(SEPath.SE_RESTART);
+                        await UniTask.WaitForSeconds(3.6f);
                         SceneReLoad();
                     })
                     .AddTo(gameObject);
@@ -150,11 +154,15 @@ namespace GGJ
 
         private void SceneReLoad()
         {
+            if (isLoaded) return;
+            isLoaded = true;
             SceneManager.LoadScene("Game");
         }
 
         private void SceneTitleLoad()
         {
+            if (isLoaded) return;
+            isLoaded = true;
             SceneManager.LoadScene("Title");
         }
 
@@ -163,12 +171,19 @@ namespace GGJ
             cancellationToken.ThrowIfCancellationRequested();
 
             var result = await _fukuwaraiControls.UI.Move.OnPerformedAsync<Vector2>(_cancellationToken);
+
+            if (isLoaded) return;
+
             if (result.x > 0)
             {
+                SEManager.Instance.Play(SEPath.SE_RESTART);
+                await UniTask.WaitForSeconds(3.6f);
                 SceneReLoad();
             }
             else
             {
+                SEManager.Instance.Play(SEPath.SE_RETURN_TITLE);
+                await UniTask.WaitForSeconds(2.3f);
                 SceneTitleLoad();
             }
         }
