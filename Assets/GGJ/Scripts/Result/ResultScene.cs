@@ -99,7 +99,7 @@ namespace GGJ
             Debug.Log($"Mode IsWolf:{isWolf}");
 
             _nomalLayer.SetActive(!isWolf);
-            _wolfLayer.SetActive(isWolf);
+            _wolfLayer.SetActive(false);
 
             if (!isWolf)
             {
@@ -160,6 +160,10 @@ namespace GGJ
         private async UniTask WolfResultAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            
+            _nomalLayer.SetActive(true);
+            await UniTask.WaitForSeconds(3);
+            _wolfLayer.SetActive( true);
             
             // _infoText.SetText("ウルフと思われる人を選択して下さい");
             _mainBtnInfo.SetActive(true);
