@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using GGJ.Common;
+using KanKikuchi.AudioManager;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace GGJ.Game
         [SerializeField] GameObject nomalBg = default;
         [SerializeField] GameObject resultBg = default;
         [SerializeField] GameObject buttons = default;
-        
+
         private List<FacePartsMover> movers;
         private IEnumerable<PlayerInputManager> inputManagers;
         bool isGameOver = false;
@@ -32,6 +33,8 @@ namespace GGJ.Game
 
         private void Start()
         {
+            BGMManager.Instance.Play(BGMPath.BGM_GAME, isLoop: true);
+
             var index = Random.Range(0, facePartsAsset.facePartsSet.Count);
             faceParts = facePartsAsset.facePartsSet[index];
             SpawnFaceParts();

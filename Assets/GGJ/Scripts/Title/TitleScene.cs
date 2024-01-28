@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using KanKikuchi.AudioManager;
@@ -19,10 +19,10 @@ namespace GGJ
     public class TitleScene : MonoBehaviour
     {
         public static List<bool> PlayerStateList = new List<bool>(4);
-        
+
         [SerializeField, Tooltip("ゲーム開始ボタン")]
         private Button _startButton;
-        
+
         [SerializeField, Tooltip("オプションボタン")]
         private Button _optionButton;
 
@@ -31,7 +31,7 @@ namespace GGJ
 
         [SerializeField]
         private GameObject _howTo;
-        
+
         [SerializeField]
         private GameObject _p1;
         [SerializeField]
@@ -48,7 +48,7 @@ namespace GGJ
         private GameObject _wolfS;
         [SerializeField, Tooltip("NEXTボタン")]
         private Button _nextButton;
-        
+
         [SerializeField, Tooltip("タイトルレイヤー")]
         private GameObject _titleLayer;
         [SerializeField, Tooltip("ウルフレイヤー")]
@@ -78,13 +78,13 @@ namespace GGJ
                 StartGame2();
             };
             _fukuwaraiControls.Enable();
-            
+
             PlayerStateList = new List<bool>(4);
             for (int i = 0, count = 4; i < count; i++)
             {
                 PlayerStateList.Add(false);
             }
-            
+
             _titleLayer.SetActive(true);
             _worfLayer.SetActive(false);
         }
@@ -93,7 +93,9 @@ namespace GGJ
         void Start()
         {
             // BGM再生
-            BGMManager.Instance.Play(BGMPath.FANTASY14);
+            BGMManager.Instance.Play(BGMPath.BGM_TITLE, delay: 3.0f, isLoop: true);
+
+            SEManager.Instance.Play(SEPath.SE_TITLE);
 
             // スタートボタン選択状態
             EventSystem.current.SetSelectedGameObject(_startButton.gameObject);
@@ -104,6 +106,7 @@ namespace GGJ
                 {
                     if (!_isHowTo)
                     {
+                        SEManager.Instance.Play(SEPath.SE_TITLE_START_BUTTON);
                         _howTo.SetActive(true);
                         _isHowTo = true;
                         return;
@@ -113,7 +116,7 @@ namespace GGJ
                 .AddTo(gameObject);
             // オプションボタン
             _optionButton.OnClickAsAsyncEnumerable()
-                .SubscribeAwait(async (unit, token)  =>
+                .SubscribeAwait(async (unit, token) =>
                 {
                     if (_isHowTo)
                     {
@@ -124,7 +127,7 @@ namespace GGJ
                 })
                 .AddTo(gameObject);
         }
-        
+
         private void StartGame()
         {
             if (_startInputBlock)
@@ -132,9 +135,10 @@ namespace GGJ
                 return;
             }
             _startInputBlock = true;
+            SEManager.Instance.Play(SEPath.SE_CLOSE_RULE);
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
         }
-        
+
         private void StartGame2()
         {
             if (_startInputBlock)
@@ -144,7 +148,7 @@ namespace GGJ
             _startInputBlock = true;
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game2");
         }
-        
+
         private async UniTask WolfCheckAsync(CancellationToken cancellationToken)
         {
             if (_startInputBlock)
@@ -154,15 +158,15 @@ namespace GGJ
 
             _startInputBlock = true;
             cancellationToken.ThrowIfCancellationRequested();
-            
+
             _titleLayer.SetActive(false);
             _worfLayer.SetActive(true);
-            
+
             var rindex = UnityEngine.Random.Range(0, 4);
             PlayerStateList[rindex] = true;
 
             EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
-            
+
             await OneCheckAsync(cancellationToken, "Player1", 0, _p1);
             await OneCheckAsync(cancellationToken, "Player2", 1, _p2);
             await OneCheckAsync(cancellationToken, "Player3", 2, _p3);
@@ -190,19 +194,19 @@ namespace GGJ
                 {
                     _wolfN.SetActive(true);
                 }
-                
-            
+
+
                 var step2Event = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
                 await UniTask.WhenAny(step2Event.OnInvokeAsync());
                 _wolfN.SetActive(false);
                 _wolfW.SetActive(false);
             }
-            
+
             _wolfS.SetActive(true);
-            
+
             var stepEndEvent = _nextButton.onClick.GetAsyncEventHandler(cancellationToken);
             await UniTask.WhenAny(stepEndEvent.OnInvokeAsync());
-            
+
             _startInputBlock = false;
             StartGame();
         }
