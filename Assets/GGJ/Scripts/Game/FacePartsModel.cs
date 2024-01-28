@@ -52,6 +52,10 @@ namespace GGJ.Game
             {
                 spriteRenderer.sortingOrder = 2;
             }
+            if (facePartsData.collidableObjectType == CollidableObjectType.MayuObject)
+            {
+                spriteRenderer.sortingOrder = 42;
+            }
 
             var sprite = spriteRenderer.sprite;
             var physicsShapeCount = sprite.GetPhysicsShapeCount();
@@ -79,6 +83,8 @@ namespace GGJ.Game
                     return "WhiteEyeObject";
                 case CollidableObjectType.BlackEyeObject:
                     return "BlackEyeObject";
+                case CollidableObjectType.MayuObject:
+                    return "MayuObject";
                 default:
                     return "EverythingCollidableObject";
             }

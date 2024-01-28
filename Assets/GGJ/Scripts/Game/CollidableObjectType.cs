@@ -9,5 +9,6 @@ namespace GGJ.Game
         EverythingCollidableObject,
         WhiteEyeObject,
         BlackEyeObject,
+        MayuObject,
     }
 }
