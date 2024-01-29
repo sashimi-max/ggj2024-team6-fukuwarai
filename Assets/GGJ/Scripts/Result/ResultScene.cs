@@ -29,6 +29,9 @@ namespace GGJ
         [SerializeField, Tooltip("もう一回ボタン")]
         private Button _retryButton;
 
+        [SerializeField, Tooltip("Xに投稿するボタン")]
+        private Button _tweetButton;
+
         [SerializeField, Tooltip("ノーマルリザルト")]
         private GameObject _nomalLayer;
 
@@ -134,6 +137,14 @@ namespace GGJ
                         SceneReLoad();
                     })
                     .AddTo(gameObject);
+                // ツイートボタン
+                _tweetButton.OnClickAsObservable()
+                    .Where(_ => !_credit.activeSelf)
+                    .Subscribe(_ =>
+                    {
+                        StartCoroutine(TweetWithScreenShot.TweetManager.TweetWithScreenShot("「福笑いパニック」で遊んだよ！"));
+                    })
+                    .AddTo(this);
                 _fukuwaraiControls.UI.C.canceled += ChangeCredit;
 
                 ResultAsync(_cancellationToken).Forget();
