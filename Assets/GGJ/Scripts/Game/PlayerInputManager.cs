@@ -11,22 +11,32 @@ public class PlayerInputManager : MonoBehaviour
 {
     public PlayerType playerType;
 
+    public bool IsPressedAnyFireButton => inputActions.Game.Fire.IsPressed() ||
+                inputActions.Game.Fire2.IsPressed() ||
+                inputActions.Game.Fire3.IsPressed() ||
+                inputActions.Game.Fire4.IsPressed();
+
     public IObservable<Unit> OnPressedFireButton => _onPressedFireButton;
     private Subject<Unit> _onPressedFireButton = new Subject<Unit>();
 
     public IObservable<Unit> OnCanceledFireButton => _onCanceledFireButton;
     private Subject<Unit> _onCanceledFireButton = new Subject<Unit>();
 
-    public bool isFired { get; private set; } = false;
-    private bool canPressedButton = true;
+    public IReadOnlyReactiveProperty<bool> IsFired => _isFired;
+    private BoolReactiveProperty _isFired = new BoolReactiveProperty(false);
+
+    public IReadOnlyReactiveProperty<bool> CanPressedButton => _canPressedButton;
+    private BoolReactiveProperty _canPressedButton = new BoolReactiveProperty(true);
     private float reenabledTimer = 0.0f;
 
     private const int ABLE_FIRE_COUNT = 2;
     private int currentFireCount = 0;
 
+    private FukuwaraiControls inputActions;
+
     private void Awake()
     {
-        var inputActions = new FukuwaraiControls();
+        inputActions = new FukuwaraiControls();
 
         switch (playerType)
         {
@@ -52,26 +62,25 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
-        if (!canPressedButton)
+        if (_isFired.Value || _canPressedButton.Value) return;
+
+        reenabledTimer += Time.deltaTime;
+        if (reenabledTimer > 2.0f)
         {
-            reenabledTimer += Time.deltaTime;
-            if (reenabledTimer > 2.0f)
-            {
-                canPressedButton = true;
-            }
+            _canPressedButton.Value = true;
         }
     }
 
-
     private void OnFireButtonUp(InputAction.CallbackContext context)
     {
-        if (isFired || !canPressedButton) return;
-        canPressedButton = false;
+        if (_isFired.Value || !_canPressedButton.Value) return;
+        _canPressedButton.Value = false;
         reenabledTimer = 0.0f;
         currentFireCount++;
         if (currentFireCount == ABLE_FIRE_COUNT)
         {
-            isFired = true;
+            _isFired.Value = true;
+            _canPressedButton.Value = false;
         }
 
         _onCanceledFireButton.OnNext(default);
@@ -79,7 +88,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnFireButtonDown(InputAction.CallbackContext context)
     {
-        if (isFired || !canPressedButton) return;
+        if (_isFired.Value || !_canPressedButton.Value) return;
         _onPressedFireButton.OnNext(default);
     }
 }

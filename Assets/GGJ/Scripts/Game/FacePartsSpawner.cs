@@ -43,7 +43,7 @@ namespace GGJ.Game
             foreach (var input in inputManagers)
             {
                 input.OnCanceledFireButton
-                    .Where(_ => !input.isFired)
+                    .Where(_ => !input.IsFired.Value)
                     .Subscribe(async _ =>
                     {
                         await UniTask.WaitForSeconds(2.0f);
@@ -108,7 +108,7 @@ namespace GGJ.Game
         {
             if (isGameOver || movers == null || movers.Count() == 0 || inputManagers == null || inputManagers.Count() == 0) return;
 
-            var allFireds = inputManagers.All(inputs => inputs.isFired);
+            var allFireds = inputManagers.All(inputs => inputs.IsFired.Value);
 
             if (!allFireds) return;
 

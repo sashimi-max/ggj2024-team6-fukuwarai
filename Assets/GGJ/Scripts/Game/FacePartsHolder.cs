@@ -7,6 +7,7 @@ using GGJ.Common;
 using UniRx;
 using KanKikuchi.AudioManager;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace GGJ.Game
 {
@@ -14,6 +15,7 @@ namespace GGJ.Game
     public class FacePartsHolder : MonoBehaviour
     {
         [SerializeField] private GamePlayParameterAsset gamePlayParameter = default;
+        [SerializeField] private Image assignedKeyImage = default;
 
         private PlayerInputManager playerInputManager;
 
@@ -54,6 +56,12 @@ namespace GGJ.Game
             playerInputManager
                 .OnCanceledFireButton
                 .Subscribe(_ => sequence.Play())
+                .AddTo(this);
+
+            playerInputManager
+                .CanPressedButton
+                .DistinctUntilChanged()
+                .Subscribe(canPressed => assignedKeyImage.enabled = canPressed)
                 .AddTo(this);
         }
 

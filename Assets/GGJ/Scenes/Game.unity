@@ -416,6 +416,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661286392817236023, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
+      propertyPath: assignedKeyImage
+      value: 
+      objectReference: {fileID: 2075405580}
     - target: {fileID: 7376861331351290358, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
       propertyPath: m_Name
       value: PlayerBar (6)
@@ -766,6 +770,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661286392817236023, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
+      propertyPath: assignedKeyImage
+      value: 
+      objectReference: {fileID: 2135052365}
     - target: {fileID: 7376861331351290358, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
       propertyPath: m_Name
       value: PlayerBar (5)
@@ -1098,7 +1106,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _GradientTex:
-        m_Texture: {fileID: 1617103012}
+        m_Texture: {fileID: 1551146066}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -1262,6 +1270,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661286392817236023, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
+      propertyPath: assignedKeyImage
+      value: 
+      objectReference: {fileID: 19392685}
     - target: {fileID: 7376861331351290358, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
       propertyPath: m_Name
       value: PlayerBar (4)
@@ -1617,12 +1629,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1571643125 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8533266328723806689, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
-  m_PrefabInstance: {fileID: 1905023250933607945}
-  m_PrefabAsset: {fileID: 0}
---- !u!28 &1617103012
+--- !u!28 &1551146066
 Texture2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1670,6 +1677,11 @@ Texture2D:
     offset: 0
     size: 0
     path: 
+--- !u!224 &1571643125 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8533266328723806689, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
+  m_PrefabInstance: {fileID: 1905023250933607945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1639360999 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8533266328723806689, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
@@ -2764,6 +2776,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5661286392817236023, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
+      propertyPath: assignedKeyImage
+      value: 
+      objectReference: {fileID: 1166916829}
     - target: {fileID: 7376861331351290358, guid: 37ac9f6b24bef6847a006bcde2291d9c, type: 3}
       propertyPath: m_Name
       value: PlayerBar
