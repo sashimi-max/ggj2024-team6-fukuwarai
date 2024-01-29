@@ -10,5 +10,6 @@ namespace GGJ.Game
         WhiteEyeObject,
         BlackEyeObject,
         MayuObject,
+        DragonEyeObject
     }
 }

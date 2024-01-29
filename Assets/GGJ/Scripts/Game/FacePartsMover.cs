@@ -15,6 +15,7 @@ namespace GGJ.Game
         [SerializeField] GamePlayParameterAsset gamePlayParameterAsset = default;
         [SerializeField] Transform _view;
         public Rigidbody2D rb { get; private set; }
+        private RectTransform rectTransform;
         private PolygonCollider2D polygonCollider2D;
         private PlayerInputManager playerInputManager;
         private bool isEjected = false;
@@ -22,6 +23,7 @@ namespace GGJ.Game
         // Start is called before the first frame update
         void Start()
         {
+            rectTransform = GetComponent<RectTransform>();
             rb = GetComponent<Rigidbody2D>();
             polygonCollider2D = GetComponent<PolygonCollider2D>();
             playerInputManager = GetComponentInParent<PlayerInputManager>();
@@ -37,11 +39,10 @@ namespace GGJ.Game
                     polygonCollider2D.enabled = true;
                     isEjected = true;
                     var moveTrans = transform.up;
-                    Debug.Log($"moveTrans:{moveTrans}");
-                    transform.parent = transform.parent.parent;
+                    rectTransform.SetParent(transform.parent.parent);
                     if (SceneManager.GetActiveScene().name == "Game2")
                     {
-                        transform.parent = transform.parent.parent;
+                        rectTransform.SetParent(transform.parent.parent);
                     }
                     rb.velocity = moveTrans * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 1.0f);
                     //rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);

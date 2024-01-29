@@ -17,6 +17,7 @@ namespace GGJ.Game
         private List<FacePartsHolder> facePartsHolders = new List<FacePartsHolder>();
 
         [SerializeField] FacePartsModel FacePartsPrefab = default;
+        [SerializeField] DragonEye DragonEyePrefab = default;
 
         [SerializeField] Image wholeFaceImage = default;
 
@@ -63,7 +64,15 @@ namespace GGJ.Game
             for (var i = 0; i < facePartsHolders.Count; i++)
             {
                 var obj = Instantiate(FacePartsPrefab, facePartsHolders[i].transform);
+                var facePartsData = firstEjectedParts[i];
                 obj.Init(firstEjectedParts[i]);
+
+                if (facePartsData.sprite.name == "dragon_eye_white")
+                {
+                    var dragonEye = Instantiate(DragonEyePrefab, obj.transform);
+                    dragonEye.transform.position = obj.transform.position;
+                    obj.setDragonEye(dragonEye);
+                }
             }
 
             movers = facePartsHolders.Select(obj => obj.GetComponentInChildren<FacePartsMover>()).ToList();

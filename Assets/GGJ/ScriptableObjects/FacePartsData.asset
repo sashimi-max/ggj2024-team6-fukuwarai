@@ -20,9 +20,9 @@ MonoBehaviour:
       sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
       collidableObjectType: 1
       drag: 0.75
-    - name: "\u53F3\u77B3"
-      sprite: {fileID: 21300000, guid: 26696a24f7b0d421eb6d7c77481030ce, type: 3}
-      collidableObjectType: 2
+    - name: "\u82B1"
+      sprite: {fileID: 21300000, guid: 82b7a679be73d52428cb88bb0d6fbfc2, type: 3}
+      collidableObjectType: 0
       drag: 0.75
     rightEjectedFacePartsData:
     - name: "\u53F3\u7709"
@@ -47,9 +47,9 @@ MonoBehaviour:
       sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
       collidableObjectType: 1
       drag: 0.75
-    - name: "\u5DE6\u77B3"
-      sprite: {fileID: 21300000, guid: 26696a24f7b0d421eb6d7c77481030ce, type: 3}
-      collidableObjectType: 2
+    - name: "\u307F\u304B\u3093"
+      sprite: {fileID: 21300000, guid: 0c45df1da32f3124da9d0f2ec828363e, type: 3}
+      collidableObjectType: 0
       drag: 0.75
   - name: "\u7F8E\u5C11\u5973\u30BB\u30C3\u30C8"
     wholeFaceSprite: {fileID: 21300000, guid: 33b6c127a5902e14cb1ac8e021105730, type: 3}

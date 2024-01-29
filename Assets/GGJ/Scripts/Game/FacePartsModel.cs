@@ -14,6 +14,7 @@ namespace GGJ.Game
         private PolygonCollider2D polygonCollider2D;
         private RectTransform rectTransform;
         private Rigidbody2D rb;
+        private DragonEye dragonEye;
 
         private void Awake()
         {
@@ -74,6 +75,17 @@ namespace GGJ.Game
             polygonCollider2D.enabled = false;
         }
 
+        public void setDragonEye(DragonEye _dragonEye)
+        {
+            dragonEye = _dragonEye;
+        }
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (dragonEye == null) return;
+            dragonEye.AddImpulseForce(Vector2.up * 10.0f);
+        }
+
         private string collidableObjectTypeName(CollidableObjectType collidableObjectType)
         {
             switch (collidableObjectType)
@@ -84,6 +96,8 @@ namespace GGJ.Game
                     return "BlackEyeObject";
                 case CollidableObjectType.MayuObject:
                     return "MayuObject";
+                case CollidableObjectType.DragonEyeObject:
+                    return "DragonEyeObject";
                 default:
                     return "EverythingCollidableObject";
             }
