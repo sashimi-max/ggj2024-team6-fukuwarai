@@ -174,7 +174,14 @@ namespace GGJ
         {
             if (isLoaded) return;
             isLoaded = true;
-            SceneManager.LoadScene("Game");
+            if (SceneManager.GetActiveScene().name == "Game2")
+            {
+                SceneManager.LoadScene("Game2");
+            }
+            else
+            {
+                SceneManager.LoadScene("Game");
+            }
         }
 
         private void SceneTitleLoad()
