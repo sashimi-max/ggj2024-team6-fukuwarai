@@ -10,11 +10,20 @@ namespace GGJ.Game
     {
         protected override bool dontDestroyOnLoad { get { return false; } }
 
-        [SerializeField] CrashEffectPool crashEffectPool = default;
+        [SerializeField] CrashEffectPool[] crashEffectPools = default;
+
+        [SerializeField] FireEffectPool[] fireEffectPools = default;
 
         public void PlayCrashEffect(Vector2 position)
         {
-            crashEffectPool.SpawnEffect(position).Forget();
+            var index = Random.Range(0, crashEffectPools.Length);
+            crashEffectPools[index].SpawnEffect(position).Forget();
+        }
+
+        public void PlayFireEffect(Vector2 position)
+        {
+            var index = Random.Range(0, fireEffectPools.Length);
+            fireEffectPools[index].SpawnEffect(position).Forget();
         }
     }
 }

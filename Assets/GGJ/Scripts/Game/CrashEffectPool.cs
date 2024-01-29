@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 
 public class CrashEffectPool : MonoBehaviour
 {
-    [SerializeField] private CrashEffect goalEffectPrefab = default;
+    [SerializeField] private CrashEffect crashEffect = default;
 
     ObjectPool<CrashEffect> pool;
 
@@ -17,7 +17,7 @@ public class CrashEffectPool : MonoBehaviour
 
     CrashEffect OnCreatePooledObject()
     {
-        return Instantiate(goalEffectPrefab, transform);
+        return Instantiate(crashEffect, transform);
     }
 
     void OnGetFromPool(CrashEffect effect)

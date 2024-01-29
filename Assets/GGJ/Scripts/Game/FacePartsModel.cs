@@ -10,17 +10,16 @@ namespace GGJ.Game
     [RequireComponent(typeof(RectTransform), typeof(Rigidbody2D))]
     public class FacePartsModel : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer view;
         private PolygonCollider2D polygonCollider2D;
         private RectTransform rectTransform;
         private Rigidbody2D rb;
-        private SpriteRenderer spriteRenderer;
 
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
             rb = GetComponent<Rigidbody2D>();
             var playerType = GetComponentInParent<PlayerInputManager>().playerType;
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             if (SceneManager.GetActiveScene().name != "Game2")
             {
                 switch (playerType)
@@ -28,13 +27,13 @@ namespace GGJ.Game
                     case PlayerType.Player1:
                         break;
                     case PlayerType.Player2:
-                        spriteRenderer.gameObject.transform.LookAt(Vector3.left);
+                        view.gameObject.transform.localRotation = Quaternion.Euler(Vector3.back * 90.0f);
                         break;
                     case PlayerType.Player3:
-                        spriteRenderer.gameObject.transform.LookAt(Vector3.down);
+                        view.gameObject.transform.localRotation = Quaternion.Euler(Vector3.back * 180.0f);
                         break;
                     default:
-                        spriteRenderer.gameObject.transform.LookAt(Vector3.right);
+                        view.gameObject.transform.localRotation = Quaternion.Euler(Vector3.back * 270.0f);
                         break;
                 }
             }
@@ -44,20 +43,20 @@ namespace GGJ.Game
         public void Init(FacePartsData facePartsData)
         {
             rectTransform.anchoredPosition = Vector2.zero;
-            spriteRenderer.sprite = facePartsData.sprite;
+            view.sprite = facePartsData.sprite;
             rb.drag = 5;
 
             gameObject.layer = LayerMask.NameToLayer(collidableObjectTypeName(facePartsData.collidableObjectType));
             if (facePartsData.collidableObjectType == CollidableObjectType.BlackEyeObject)
             {
-                spriteRenderer.sortingOrder = 2;
+                view.sortingOrder = 2;
             }
             if (facePartsData.collidableObjectType == CollidableObjectType.MayuObject)
             {
-                spriteRenderer.sortingOrder = 42;
+                view.sortingOrder = 42;
             }
 
-            var sprite = spriteRenderer.sprite;
+            var sprite = view.sprite;
             var physicsShapeCount = sprite.GetPhysicsShapeCount();
 
             polygonCollider2D.pathCount = physicsShapeCount;
