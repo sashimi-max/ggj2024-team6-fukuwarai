@@ -13,9 +13,6 @@ namespace GGJ.Game
 {
     public class FacePartsSpawner : MonoBehaviour
     {
-        [SerializeField]
-        private List<FacePartsHolder> facePartsHolders = new List<FacePartsHolder>();
-
         [SerializeField] FacePartsModel FacePartsPrefab = default;
         [SerializeField] DragonEye DragonEyePrefab = default;
 
@@ -23,14 +20,16 @@ namespace GGJ.Game
 
         [SerializeField] FacePartsAsset facePartsAsset = default;
 
-        [SerializeField] GameObject nomalBg = default;
-        [SerializeField] GameObject resultBg = default;
-        [SerializeField] GameObject buttons = default;
-
         private List<FacePartsMover> movers;
         private IEnumerable<PlayerInputManager> inputManagers;
         bool isGameOver = false;
         private FaceParts faceParts;
+        private List<FacePartsHolder> facePartsHolders = new List<FacePartsHolder>();
+
+        public void AddFacePartsHolder(FacePartsHolder facePartsHolder)
+        {
+            facePartsHolders.Add(facePartsHolder);
+        }
 
         private void Start()
         {
@@ -47,7 +46,7 @@ namespace GGJ.Game
                     .Subscribe(async _ =>
                     {
                         await UniTask.WaitForSeconds(2.0f);
-                        SpawnFacePartsBySide(input.playerType);
+                        SpawnFacePartsBySide(input.PlayerType);
                     }).AddTo(this);
             }
         }
@@ -128,13 +127,9 @@ namespace GGJ.Game
                 mover.rb.angularVelocity = 0;
             });
             BGMManager.Instance.Stop();
-            Debug.Log("gameover!");
             isGameOver = true;
 
-            buttons.SetActive(false);
-            nomalBg.SetActive(false);
-            resultBg.SetActive(true);
-            SceneManager.LoadScene("Result", LoadSceneMode.Additive);
+            GameScene.Instance.GameOver();
         }
     }
 }

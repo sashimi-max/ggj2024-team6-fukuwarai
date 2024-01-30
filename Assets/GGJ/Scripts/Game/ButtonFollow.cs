@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +6,18 @@ namespace GGJ
 {
     public class ButtonFollow : MonoBehaviour
     {
-        [SerializeField] private Transform _target;
-        [SerializeField] private Vector3 _plusPos;
+        private Transform target;
 
         // Update is called once per frame
         void Update()
         {
-            transform.position = _target.transform.position + _plusPos;
+            if (target == null) return;
+            transform.position = target.transform.position + target.transform.position.normalized;
+        }
+
+        public void Init(Transform _target)
+        {
+            target = _target;
         }
     }
 }

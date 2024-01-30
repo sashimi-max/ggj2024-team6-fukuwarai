@@ -20,8 +20,8 @@ namespace GGJ.Game
         {
             rectTransform = GetComponent<RectTransform>();
             rb = GetComponent<Rigidbody2D>();
-            var playerType = GetComponentInParent<PlayerInputManager>().playerType;
-            if (SceneManager.GetActiveScene().name != "Game2")
+            var playerType = GetComponentInParent<PlayerInputManager>().PlayerType;
+            if (SceneContext.Instance.IsNormalMode)
             {
                 switch (playerType)
                 {

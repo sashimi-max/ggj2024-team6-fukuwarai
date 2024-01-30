@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GGJ.Common
+namespace GGJ.Game
 {
     // FIXME: PlayerPositionTypeになってる
     public enum PlayerType

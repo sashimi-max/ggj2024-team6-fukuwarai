@@ -10,6 +10,7 @@ using TransitionsPlus;
 using UnityEngine.EventSystems;
 using Cysharp.Threading.Tasks.Linq;
 using DG.Tweening;
+using GGJ.Common;
 
 namespace GGJ
 {
@@ -139,6 +140,7 @@ namespace GGJ
             }
             _startInputBlock = true;
             SEManager.Instance.Play(SEPath.SE_CLOSE_RULE);
+            SceneContext.Instance.SetGameMode(GameMode.normal);
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
         }
 
@@ -150,7 +152,8 @@ namespace GGJ
             }
             _startInputBlock = true;
             SEManager.Instance.Play(SEPath.SE_CLOSE_RULE);
-            TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game2");
+            SceneContext.Instance.SetGameMode(GameMode.hard);
+            TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
         }
 
         private async UniTask WolfCheckAsync(CancellationToken cancellationToken)

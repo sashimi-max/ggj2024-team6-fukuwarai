@@ -39,11 +39,11 @@ namespace GGJ.Game
                     polygonCollider2D.enabled = true;
                     isEjected = true;
                     var moveTrans = transform.up;
-                    rectTransform.SetParent(transform.parent.parent);
-                    if (SceneManager.GetActiveScene().name == "Game2")
+                    if (SceneContext.Instance.IsHardMode)
                     {
-                        rectTransform.SetParent(transform.parent.parent);
+                        moveTrans = -transform.position.normalized;
                     }
+                    rectTransform.SetParent(PartsField.Instance.gameObject.transform);
                     rb.velocity = moveTrans * gamePlayParameterAsset.playerFirePower * Mathf.Clamp(playerCharge.normalizedChargedTime, 0.2f, 1.0f);
                     //rb.AddRelativeForce(Vector2.up * gamePlayParameterAsset.playerFirePower * playerCharge.normalizedChargedTime, ForceMode2D.Impulse);
                 })
@@ -58,7 +58,7 @@ namespace GGJ.Game
                 rb.angularVelocity = 0;
             }
 
-            if (!isEjected && SceneManager.GetActiveScene().name == "Game2")
+            if (!isEjected && SceneContext.Instance.IsHardMode)
             {
                 _view.rotation = Quaternion.Euler(0, 0, 0);
             }
