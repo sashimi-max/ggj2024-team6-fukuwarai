@@ -18,74 +18,90 @@ MonoBehaviour:
     downEjectedFacePartsData:
     - name: "\u53F3\u76EE"
       sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
-      collidableObjectType: 1
+      layer:
+        _value: 7
       drag: 0.75
     - name: "\u82B1"
       sprite: {fileID: 21300000, guid: 82b7a679be73d52428cb88bb0d6fbfc2, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 6
       drag: 0.75
     rightEjectedFacePartsData:
     - name: "\u53F3\u7709"
       sprite: {fileID: 21300000, guid: b2123b02f5be14986ba607163e0ca8b3, type: 3}
-      collidableObjectType: 3
+      layer:
+        _value: 8
       drag: 0.75
     - name: "\u53F3\u89D2"
       sprite: {fileID: 21300000, guid: 51e33b9d3eeba4998973911e9748d872, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 6
       drag: 0.75
     upEjectedFacePartsData:
     - name: "\u5DE6\u7709"
       sprite: {fileID: 21300000, guid: ae5117fafc8254f65b2f77bdfd0e38e9, type: 3}
-      collidableObjectType: 3
+      layer:
+        _value: 8
       drag: 0.75
     - name: "\u5DE6\u89D2"
       sprite: {fileID: 21300000, guid: 31d1f3c8671f14d97acd4a66b6f6b025, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 6
       drag: 0.75
     leftEjectedFacePartsData:
     - name: "\u5DE6\u76EE"
       sprite: {fileID: 21300000, guid: 3a2375da33c0e4fd49b9225269303086, type: 3}
-      collidableObjectType: 1
+      layer:
+        _value: 7
       drag: 0.75
     - name: "\u307F\u304B\u3093"
       sprite: {fileID: 21300000, guid: 0c45df1da32f3124da9d0f2ec828363e, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 6
       drag: 0.75
   - name: "\u7F8E\u5C11\u5973\u30BB\u30C3\u30C8"
     wholeFaceSprite: {fileID: 21300000, guid: 33b6c127a5902e14cb1ac8e021105730, type: 3}
     downEjectedFacePartsData:
     - name: "\u5DE6\u76EE"
       sprite: {fileID: 21300000, guid: 53ae93fcd64394023adc78d0c0107341, type: 3}
-      collidableObjectType: 2
+      layer:
+        _value: 7
       drag: 0.75
-    - name: "\u306F\u306A"
+    - name: "\u9F3B"
       sprite: {fileID: 21300000, guid: 1bdc8179760704f5089a851f57a4866b, type: 3}
-      collidableObjectType: 2
+      layer:
+        _value: 6
       drag: 0.75
     rightEjectedFacePartsData:
     - name: "\u5DE6\u7709"
       sprite: {fileID: 21300000, guid: 3812f9814b3b54eababcfc57516f0d09, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 8
       drag: 0.75
     - name: "\u53E3"
       sprite: {fileID: 21300000, guid: 4b91111bb060c264285e98077c27cae3, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 6
       drag: 0.75
     upEjectedFacePartsData:
-    - name: "\u306F\u306A"
+    - name: "\u82B1"
       sprite: {fileID: 21300000, guid: cedc80fa40d4b4154ba69108b3689c3f, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 6
       drag: 0.75
     - name: "\u53F3\u7709"
       sprite: {fileID: 21300000, guid: d362048d9aa584428b1f5129563338c9, type: 3}
-      collidableObjectType: 0
+      layer:
+        _value: 8
       drag: 0.75
     leftEjectedFacePartsData:
     - name: "\u53F3\u76EE"
       sprite: {fileID: 21300000, guid: 8b46c6c8a54914e9693d09f760b336e0, type: 3}
-      collidableObjectType: 1
+      layer:
+        _value: 7
       drag: 0.75
     - name: "\u307B\u304F\u308D"
       sprite: {fileID: 21300000, guid: f3564da003dbb4d8ba85480a2967099c, type: 3}
-      collidableObjectType: 1
+      layer:
+        _value: 6
       drag: 0.75
