@@ -25,6 +25,6 @@ public class FacePartsData
 {
     public string name;
     public Sprite sprite;
-    public CollidableObjectType collidableObjectType;
+    public Layer layer;
     public float drag = 1.0f;
 }

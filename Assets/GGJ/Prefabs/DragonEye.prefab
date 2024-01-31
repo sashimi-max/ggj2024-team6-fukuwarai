@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5143888440353355300}
   - component: {fileID: 2657705800798946188}
   - component: {fileID: 574288851070906781}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: DragonEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7632369333902448909}
   - component: {fileID: 1961093054215815430}
-  m_Layer: 10
+  m_Layer: 5
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

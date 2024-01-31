@@ -47,14 +47,15 @@ namespace GGJ.Game
             view.sprite = facePartsData.sprite;
             rb.drag = 5;
 
-            gameObject.layer = LayerMask.NameToLayer(collidableObjectTypeName(facePartsData.collidableObjectType));
-            if (facePartsData.collidableObjectType == CollidableObjectType.BlackEyeObject)
+            gameObject.layer = facePartsData.layer;
+
+            if (facePartsData.layer.Name == "Eye")
             {
                 view.sortingOrder = 2;
             }
-            if (facePartsData.collidableObjectType == CollidableObjectType.MayuObject)
+            if (facePartsData.layer.Name == "Mayu")
             {
-                view.sortingOrder = 42;
+                view.sortingOrder = 3;
             }
 
             var sprite = view.sprite;
