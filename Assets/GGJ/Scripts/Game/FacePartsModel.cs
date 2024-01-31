@@ -55,7 +55,7 @@ namespace GGJ.Game
             }
             if (facePartsData.layer.Name == "Mayu")
             {
-                view.sortingOrder = 3;
+                view.sortingOrder = 4;
             }
 
             var sprite = view.sprite;
