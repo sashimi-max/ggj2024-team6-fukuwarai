@@ -15,6 +15,7 @@ using TransitionsPlus;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks.Linq;
+using GGJ.Game.WebImage;
 
 namespace GGJ
 {
@@ -85,6 +86,7 @@ namespace GGJ
         private CancellationToken _cancellationToken;
         private bool isLoaded = false;
         private bool isMover = false;
+        private bool isTakeScreenShot = false;
 
         private void Awake()
         {
@@ -147,6 +149,7 @@ namespace GGJ
                     .AddTo(this);
                 _fukuwaraiControls.UI.C.canceled += ChangeCredit;
 
+                TakeScreenShotAsync(_cancellationToken).Forget();
                 ResultAsync(_cancellationToken).Forget();
             }
             else
@@ -163,7 +166,7 @@ namespace GGJ
 
         private void ChangeCredit(InputAction.CallbackContext content)
         {
-            if (isMover)
+            if (isMover || !isTakeScreenShot)
             {
                 return;
             }
@@ -203,6 +206,15 @@ namespace GGJ
                 await UniTask.WaitForSeconds(2.3f);
                 SceneTitleLoad();
             }
+        }
+
+        private async UniTask TakeScreenShotAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await UniTask.WaitForSeconds(3.6f, cancellationToken: cancellationToken);
+            isTakeScreenShot = true;
+            GameCanvasWebUploader.Instance.WebUploadCurrentCanvas().Forget();
         }
 
         private async UniTask WolfResultAsync(CancellationToken cancellationToken)
