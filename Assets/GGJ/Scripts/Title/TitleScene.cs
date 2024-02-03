@@ -293,24 +293,40 @@ namespace GGJ
         private void OnFireP(InputAction.CallbackContext context)
         {
             Debug.Log($"P");
+            if (_isHowTo)
+            {
+                StartGame();
+            }
             _startPButton.onClick.Invoke();
         }
         
         private void OnFireA(InputAction.CallbackContext context)
         {
             Debug.Log($"A");
+            if (_isHowTo)
+            {
+                StartGame();
+            }
             _startAButton.onClick.Invoke();
         }
         
         private void OnFireN(InputAction.CallbackContext context)
         {
             Debug.Log($"N");
+            if (_isHowTo)
+            {
+                StartGame();
+            }
             _startNButton.onClick.Invoke();
         }
         
         private void OnFireI(InputAction.CallbackContext context)
         {
             Debug.Log($"I");
+            if (_isHowTo)
+            {
+                StartGame2();
+            }
             _startIButton.onClick.Invoke();
         }
         private void OnFireC(InputAction.CallbackContext context)
