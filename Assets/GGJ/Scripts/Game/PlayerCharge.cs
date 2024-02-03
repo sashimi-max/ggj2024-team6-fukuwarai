@@ -20,6 +20,7 @@ namespace GGJ.Game
         public float normalizedChargedTime => Mathf.PingPong(chargedTime, gamePlayParameter.playerChargeSeconds) / gamePlayParameter.playerChargeSeconds;
 
         private FukuwaraiControls inputActions;
+        private PlayerInputManager _playerInputManager;
 
         private void Awake()
         {
@@ -29,10 +30,10 @@ namespace GGJ.Game
 
         private void Start()
         {
-            var inputManager = GetComponent<PlayerInputManager>();
-            playerType = inputManager.PlayerType;
+            _playerInputManager = GetComponent<PlayerInputManager>();
+            playerType = _playerInputManager.PlayerType;
 
-            inputManager.OnCanceledFireButton
+            _playerInputManager.OnCanceledFireButton
                 .Subscribe(async _ =>
                 {
                     await UniTask.WaitForSeconds(0.1f);
@@ -43,20 +44,9 @@ namespace GGJ.Game
 
         private void Update()
         {
-            switch (playerType)
+            if (_playerInputManager.IsPressedAnyFireButton)
             {
-                case PlayerType.Player1:
-                    if (inputActions.Game.Fire.IsPressed()) chargedTime += Time.deltaTime;
-                    break;
-                case PlayerType.Player2:
-                    if (inputActions.Game.Fire2.IsPressed()) chargedTime += Time.deltaTime;
-                    break;
-                case PlayerType.Player3:
-                    if (inputActions.Game.Fire3.IsPressed()) chargedTime += Time.deltaTime;
-                    break;
-                default:
-                    if (inputActions.Game.Fire4.IsPressed()) chargedTime += Time.deltaTime;
-                    break;
+                chargedTime += Time.deltaTime;
             }
         }
     }

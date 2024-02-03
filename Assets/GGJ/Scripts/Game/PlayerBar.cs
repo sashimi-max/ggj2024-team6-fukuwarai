@@ -26,9 +26,9 @@ namespace GGJ.Game
         Vector2 origin;
         float distance;
 
-        public void Init(PlayerType playerType, Image keyImage)
+        public void Init(PlayerType playerType, Image keyImage, Button button)
         {
-            playerInputManager.Init(playerType);
+            playerInputManager.Init(playerType, button, keyImage);
             assignedKeyImage = keyImage;
             InitHolder();
         }

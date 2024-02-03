@@ -9,6 +9,7 @@ namespace GGJ.Game
     public class PlayerBarFactory : MonoBehaviour
     {
         [SerializeField] Transform[] barSpawnPoints = default;
+        [SerializeField] Button[] buttons = default;
 
         [SerializeField] PlayerBar playerBarPrefab = default;
 
@@ -24,7 +25,7 @@ namespace GGJ.Game
             for (var i = 0; i < PLAYER_COUNT; i++)
             {
                 var playerBar = Instantiate(playerBarPrefab, barSpawnPoints[i]);
-                playerBar.Init((PlayerType)i, keyImages[i]);
+                playerBar.Init((PlayerType)i, keyImages[i], buttons[i]);
 
                 var playerHolder = playerBar.GetFacePartsHolder();
                 facePartsSpawner.AddFacePartsHolder(playerHolder);
