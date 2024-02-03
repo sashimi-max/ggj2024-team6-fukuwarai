@@ -188,6 +188,15 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""H"",
+                    ""type"": ""Button"",
+                    ""id"": ""8bd49ddf-b5ce-4695-8c92-f34ec99298c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -806,6 +815,17 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                     ""action"": ""A"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fc54a85-a7d3-4c55-a31a-81354ad2cb97"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""H"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1053,6 +1073,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         m_UI_N = m_UI.FindAction("N", throwIfNotFound: true);
         m_UI_P = m_UI.FindAction("P", throwIfNotFound: true);
         m_UI_A = m_UI.FindAction("A", throwIfNotFound: true);
+        m_UI_H = m_UI.FindAction("H", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Fire = m_Game.FindAction("Fire", throwIfNotFound: true);
@@ -1138,6 +1159,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_N;
     private readonly InputAction m_UI_P;
     private readonly InputAction m_UI_A;
+    private readonly InputAction m_UI_H;
     public struct UIActions
     {
         private @FukuwaraiControls m_Wrapper;
@@ -1160,6 +1182,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         public InputAction @N => m_Wrapper.m_UI_N;
         public InputAction @P => m_Wrapper.m_UI_P;
         public InputAction @A => m_Wrapper.m_UI_A;
+        public InputAction @H => m_Wrapper.m_UI_H;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1223,6 +1246,9 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             @A.started += instance.OnA;
             @A.performed += instance.OnA;
             @A.canceled += instance.OnA;
+            @H.started += instance.OnH;
+            @H.performed += instance.OnH;
+            @H.canceled += instance.OnH;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1281,6 +1307,9 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             @A.started -= instance.OnA;
             @A.performed -= instance.OnA;
             @A.canceled -= instance.OnA;
+            @H.started -= instance.OnH;
+            @H.performed -= instance.OnH;
+            @H.canceled -= instance.OnH;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1424,6 +1453,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         void OnN(InputAction.CallbackContext context);
         void OnP(InputAction.CallbackContext context);
         void OnA(InputAction.CallbackContext context);
+        void OnH(InputAction.CallbackContext context);
     }
     public interface IGameActions
     {

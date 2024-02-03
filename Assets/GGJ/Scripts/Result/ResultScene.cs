@@ -157,9 +157,10 @@ namespace GGJ
                 _changeViewButton.OnClickAsObservable()
                     .Subscribe(_ =>
                     {
-                        _wolfLayerCanvasGroup.alpha = _wolfLayerCanvasGroup.alpha >= 0.5 ? 0f : 1f;
+                        ChangeWolfAlpha();
                     })
                     .AddTo(this);
+                _fukuwaraiControls.UI.H.canceled += ChangeWolfAlpha;
                 
                 _cancellationToken = new CancellationToken();
                 WolfResultAsync(_cancellationToken).Forget();
@@ -169,6 +170,17 @@ namespace GGJ
         private void OnDestroy()
         {
             _fukuwaraiControls.UI.C.canceled -= ChangeCredit;
+            _fukuwaraiControls.UI.H.canceled -= ChangeWolfAlpha;
+        }
+
+        private void ChangeWolfAlpha()
+        {
+            _wolfLayerCanvasGroup.alpha = _wolfLayerCanvasGroup.alpha >= 0.5 ? 0f : 1f;
+        }
+        
+        private void ChangeWolfAlpha(InputAction.CallbackContext content)
+        {
+            ChangeWolfAlpha();
         }
 
         private void ChangeCredit(InputAction.CallbackContext content)
