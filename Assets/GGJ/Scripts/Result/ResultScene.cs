@@ -26,21 +26,24 @@ namespace GGJ
 
         [SerializeField, Tooltip("Xに投稿するボタン")]
         private Button _tweetButton;
+        
+        [SerializeField, Tooltip("ウルフモード時表示切替")]
+        private Button _changeViewButton;
 
         [SerializeField, Tooltip("ノーマルリザルト")]
         private GameObject _nomalLayer;
 
         [SerializeField, Tooltip("ウルフレイヤー")]
         private GameObject _wolfLayer;
+        
+        [SerializeField, Tooltip("ウルフレイヤーキャンバスグループ")]
+        private CanvasGroup _wolfLayerCanvasGroup;
 
         [SerializeField]
         private GameObject _credit;
 
         [SerializeField, Tooltip("NEXTボタン")]
         private Button _nextButton;
-
-        // [SerializeField, Tooltip("インフォボタン")]
-        // private TextMeshProUGUI  _infoText;
 
         [SerializeField]
         private GameObject _mainBtnInfo;
@@ -93,6 +96,7 @@ namespace GGJ
             _p2w.SetActive(false);
             _p3w.SetActive(false);
             _p4w.SetActive(false);
+            _changeViewButton.gameObject.SetActive(false);
         }
 
         // Start is called before the first frame update
@@ -148,6 +152,15 @@ namespace GGJ
             }
             else
             {
+                _changeViewButton.gameObject.SetActive(true);
+                // 表示切替
+                _changeViewButton.OnClickAsObservable()
+                    .Subscribe(_ =>
+                    {
+                        _wolfLayerCanvasGroup.alpha = _wolfLayerCanvasGroup.alpha >= 0.5 ? 0f : 1f;
+                    })
+                    .AddTo(this);
+                
                 _cancellationToken = new CancellationToken();
                 WolfResultAsync(_cancellationToken).Forget();
             }
