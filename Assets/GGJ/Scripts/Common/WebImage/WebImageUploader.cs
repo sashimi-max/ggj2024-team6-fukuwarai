@@ -10,7 +10,6 @@ namespace GGJ.Common.WebImage
 {
     public class WebImageUploader : MonoBehaviour
     {
-        //private const string host = "http://127.0.0.1:8787";
         private const string host = "https://fukuwarai-proxy-workers.sashimi-shimi-sashimi.workers.dev";
         private string uploadPath = "/upload";
         private string basicKey = "sashimi";
@@ -19,7 +18,6 @@ namespace GGJ.Common.WebImage
         public async UniTask Upload(Texture2D tex)
         {
             WWWForm form = new WWWForm();
-            form.AddField("requireSignedURLs", "true");
             form.AddBinaryData("file", tex.EncodeToJPG(), "result.jpg", "image/jpg");
 
             var url = host + uploadPath;
