@@ -9,6 +9,8 @@ using TransitionsPlus;
 using UnityEngine.EventSystems;
 using Cysharp.Threading.Tasks.Linq;
 using GGJ.Common;
+using TMPro;
+using UniRx.Triggers;
 using UnityEngine.InputSystem;
 
 namespace GGJ
@@ -59,6 +61,8 @@ namespace GGJ
         private GameObject _wolfW;
         [SerializeField]
         private GameObject _wolfS;
+        [SerializeField]
+        private CanvasGroup _galleryCanvasGroup;
         [SerializeField, Tooltip("NEXTボタン")]
         private Button _nextButton;
 
@@ -66,6 +70,8 @@ namespace GGJ
         private GameObject _titleLayer;
         [SerializeField, Tooltip("ウルフレイヤー")]
         private GameObject _worfLayer;
+        [SerializeField]
+        private TextMeshProUGUI _infoText;
 
         private ReadOnlyReactiveProperty<bool> _enterKey = default;
         private ReadOnlyReactiveProperty<bool> _firePKey = default;
@@ -164,8 +170,7 @@ namespace GGJ
                 .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
                 .Subscribe(_ =>
                 {
-                    _faceNo = -1;
-                    PushPANC();
+                    _galleryCanvasGroup.alpha = _galleryCanvasGroup.alpha > 0.5f ? 0f : 1;
                 })
                 .AddTo(this);
             _howtoButton.OnClickAsObservable()
@@ -236,6 +241,26 @@ namespace GGJ
                         _worfLayer.SetActive(false);
                     }
                     _titleLayer.SetActive(true);
+                })
+                .AddTo(this);
+
+            this.UpdateAsObservable()
+                .Subscribe(_ =>
+                {
+                    var name = EventSystem.current.currentSelectedGameObject?.name ?? "";
+                    name = name switch
+                    {
+                        "P" => "ゲーム開始",
+                        "A" => "龍でゲーム開始",
+                        "N" => "ベルバラでゲーム開始",
+                        "I" => "ハードモードでゲーム開始",
+                        "C" => "ギャラリー表示切替",
+                        "W" => "ウルフモードでゲーム開始",
+                        "HOWTO" => "",
+                        "ESC" => "戻る",
+                        _ => ""
+                    };
+                    _infoText.SetText(name);
                 })
                 .AddTo(this);
         }
