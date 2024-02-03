@@ -15,8 +15,8 @@ namespace GGJ.Common.WebImage
 
             var w = rect.sizeDelta.x;
             var h = rect.sizeDelta.y;
-            var screenWidth = Screen.currentResolution.width;
-            var screenHeight = Screen.currentResolution.height;
+            var screenWidth = Screen.width;
+            var screenHeight = Screen.height;
 #if UNITY_EDITOR
             string[] res = UnityStats.screenRes.Split('x');
             screenWidth = int.Parse(res[0]);
