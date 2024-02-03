@@ -1236,6 +1236,7 @@ GameObject:
   - component: {fileID: 648293105}
   - component: {fileID: 648293109}
   - component: {fileID: 648293108}
+  - component: {fileID: 648293110}
   m_Layer: 5
   m_Name: ChangeViewText
   m_TagString: Untagged
@@ -1379,6 +1380,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
+--- !u!114 &648293110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648293103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &691956896
 GameObject:
   m_ObjectHideFlags: 0
@@ -4176,6 +4194,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 911594779}
     m_Modifications:
+    - target: {fileID: 6623912387096815479, guid: da7237dc921e8f74386f2b8be41fd886, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7916703664912480610, guid: da7237dc921e8f74386f2b8be41fd886, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

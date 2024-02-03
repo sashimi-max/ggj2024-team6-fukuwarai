@@ -412,7 +412,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bc71ba96-10ee-4a7e-ad76-252f0ddbda14"",
-                    ""path"": ""<Touchscreen>/touch*/position"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1006,52 +1006,7 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": [
-        {
-            ""name"": ""Player1"",
-            ""bindingGroup"": ""Player1"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": true,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Player2"",
-            ""bindingGroup"": ""Player2"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Player3"",
-            ""bindingGroup"": ""Player3"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Player4"",
-            ""bindingGroup"": ""Player4"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        }
-    ]
+    ""controlSchemes"": []
 }");
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1397,42 +1352,6 @@ public partial class @FukuwaraiControls: IInputActionCollection2, IDisposable
         }
     }
     public GameActions @Game => new GameActions(this);
-    private int m_Player1SchemeIndex = -1;
-    public InputControlScheme Player1Scheme
-    {
-        get
-        {
-            if (m_Player1SchemeIndex == -1) m_Player1SchemeIndex = asset.FindControlSchemeIndex("Player1");
-            return asset.controlSchemes[m_Player1SchemeIndex];
-        }
-    }
-    private int m_Player2SchemeIndex = -1;
-    public InputControlScheme Player2Scheme
-    {
-        get
-        {
-            if (m_Player2SchemeIndex == -1) m_Player2SchemeIndex = asset.FindControlSchemeIndex("Player2");
-            return asset.controlSchemes[m_Player2SchemeIndex];
-        }
-    }
-    private int m_Player3SchemeIndex = -1;
-    public InputControlScheme Player3Scheme
-    {
-        get
-        {
-            if (m_Player3SchemeIndex == -1) m_Player3SchemeIndex = asset.FindControlSchemeIndex("Player3");
-            return asset.controlSchemes[m_Player3SchemeIndex];
-        }
-    }
-    private int m_Player4SchemeIndex = -1;
-    public InputControlScheme Player4Scheme
-    {
-        get
-        {
-            if (m_Player4SchemeIndex == -1) m_Player4SchemeIndex = asset.FindControlSchemeIndex("Player4");
-            return asset.controlSchemes[m_Player4SchemeIndex];
-        }
-    }
     public interface IUIActions
     {
         void OnEnter(InputAction.CallbackContext context);
