@@ -35,7 +35,7 @@ namespace GGJ.Game
         {
             BGMManager.Instance.Play(BGMPath.BGM_GAME, isLoop: true);
 
-            var index = Random.Range(0, facePartsAsset.facePartsSet.Count);
+            var index = SceneContext.Instance.FaceNo >= 0? SceneContext.Instance.FaceNo: Random.Range(0, facePartsAsset.facePartsSet.Count);
             faceParts = facePartsAsset.facePartsSet[index];
             SpawnFaceParts();
 

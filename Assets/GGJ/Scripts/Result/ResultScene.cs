@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using KanKikuchi.AudioManager;
@@ -9,9 +6,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UniRx;
-using DG.Tweening;
-using TMPro;
-using TransitionsPlus;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks.Linq;
@@ -224,8 +218,7 @@ namespace GGJ
             _nomalLayer.SetActive(true);
             await UniTask.WaitForSeconds(3);
             _wolfLayer.SetActive(true);
-
-            // _infoText.SetText("ウルフと思われる人を選択して下さい");
+            
             _mainBtnInfo.SetActive(true);
             _nextButton.gameObject.SetActive(false);
 
@@ -260,9 +253,6 @@ namespace GGJ
 
             EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
             _nextButton.gameObject.SetActive(true);
-
-            // var winner = isWolfLose? "ウルフ": "市民";
-            // _infoText.SetText($"{winner}側の勝利です！\n\nウルフはPlayer{wolfIndex + 1}の方です。");
 
             _wwin.SetActive(!isWolfLose);
             _nwin.SetActive(isWolfLose);

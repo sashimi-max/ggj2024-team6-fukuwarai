@@ -2,15 +2,14 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using KanKikuchi.AudioManager;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using TransitionsPlus;
 using UnityEngine.EventSystems;
 using Cysharp.Threading.Tasks.Linq;
-using DG.Tweening;
 using GGJ.Common;
+using UnityEngine.InputSystem;
 
 namespace GGJ
 {
@@ -21,12 +20,23 @@ namespace GGJ
     {
         public static List<bool> PlayerStateList = new List<bool>(4);
 
-        [SerializeField, Tooltip("ゲーム開始ボタン")]
-        private Button _startButton;
-
-        [SerializeField, Tooltip("オプションボタン")]
-        private Button _optionButton;
-
+        [SerializeField, Tooltip("Pゲーム開始ボタン")]
+        private Button _startPButton;
+        [SerializeField, Tooltip("Aゲーム開始ボタン")]
+        private Button _startAButton;
+        [SerializeField, Tooltip("Nゲーム開始ボタン")]
+        private Button _startNButton;
+        [SerializeField, Tooltip("Iゲーム開始ボタン")]
+        private Button _startIButton;
+        [SerializeField, Tooltip("Cゲーム開始ボタン")]
+        private Button _startCButton;
+        [SerializeField, Tooltip("Wゲーム開始ボタン")]
+        private Button _wolfWButton;
+        [SerializeField, Tooltip("戻るボタン")]
+        private Button _howtoButton;
+        [SerializeField, Tooltip("戻るボタン")]
+        private Button _escButton;
+        
         [SerializeField, Tooltip("トランジションプロファイル")]
         private TransitionProfile _starTransitionProfile;
 
@@ -57,6 +67,16 @@ namespace GGJ
         [SerializeField, Tooltip("ウルフレイヤー")]
         private GameObject _worfLayer;
 
+        private ReadOnlyReactiveProperty<bool> _enterKey = default;
+        private ReadOnlyReactiveProperty<bool> _firePKey = default;
+        private ReadOnlyReactiveProperty<bool> _fireAKey = default;
+        private ReadOnlyReactiveProperty<bool> _fireNKey = default;
+        private ReadOnlyReactiveProperty<bool> _fireIKey = default;
+        private ReadOnlyReactiveProperty<bool> _fireCKey = default;
+        private ReadOnlyReactiveProperty<bool> _fireWKey = default;
+        private ReadOnlyReactiveProperty<bool> _escKey = default;
+        
+        private CancellationTokenSource _cancellationTokenSource;
         // InputSystem
         private FukuwaraiControls _fukuwaraiControls;
 
@@ -64,24 +84,23 @@ namespace GGJ
 
         private bool _isHowTo = false;
 
+        private int _faceNo = -1;
+
         private void Awake()
         {
             _fukuwaraiControls = new FukuwaraiControls();
-            _fukuwaraiControls.UI.Enter.canceled += (x) =>
-            {
-                _startButton.onClick.Invoke();
-            };
-            _fukuwaraiControls.UI.FireW.canceled += (x) =>
-            {
-                // Wolf Mode
-                _optionButton.onClick.Invoke();
-            };
-            _fukuwaraiControls.UI.FireI.canceled += (x) =>
-            {
-                StartGame2();
-            };
+            // _fukuwaraiControls.UI.Enter.canceled += OnEnter;
+            _fukuwaraiControls.UI.P.canceled += OnFireP;
+            _fukuwaraiControls.UI.A.canceled += OnFireA;
+            _fukuwaraiControls.UI.N.canceled += OnFireN;
+            _fukuwaraiControls.UI.FireI.canceled += OnFireI;
+            _fukuwaraiControls.UI.C.canceled += OnFireC;
+            _fukuwaraiControls.UI.FireW.canceled += OnFireW;
+            _fukuwaraiControls.UI.Cancel.canceled += OnCancel;
             _fukuwaraiControls.Enable();
 
+            _escButton.gameObject.SetActive(false);
+            
             PlayerStateList = new List<bool>(4);
             for (int i = 0, count = 4; i < count; i++)
             {
@@ -92,6 +111,18 @@ namespace GGJ
             _worfLayer.SetActive(false);
         }
 
+        private void OnDisable()
+        {
+            // _fukuwaraiControls.UI.Enter.canceled -= OnEnter;
+            _fukuwaraiControls.UI.P.canceled -= OnFireP;
+            _fukuwaraiControls.UI.A.canceled -= OnFireA;
+            _fukuwaraiControls.UI.N.canceled -= OnFireN;
+            _fukuwaraiControls.UI.FireI.canceled -= OnFireI;
+            _fukuwaraiControls.UI.C.canceled -= OnFireC;
+            _fukuwaraiControls.UI.FireW.canceled -= OnFireW;
+            _fukuwaraiControls.UI.Cancel.canceled -= OnCancel;
+        }
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -101,37 +132,180 @@ namespace GGJ
             SEManager.Instance.Play(SEPath.SE_TITLE);
 
             // スタートボタン選択状態
-            EventSystem.current.SetSelectedGameObject(_startButton.gameObject);
+            EventSystem.current.SetSelectedGameObject(_startPButton.gameObject);
 
             // 開始ボタン
-            _startButton.OnClickAsObservable()
+            _startPButton
+                .OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
                 .Subscribe(_ =>
                 {
-                    if (!_isHowTo)
-                    {
-                        SEManager.Instance.Play(SEPath.SE_TITLE_START_BUTTON);
-                        _howTo.SetActive(true);
-                        _isHowTo = true;
-                        return;
-                    }
-
-                    StartGame();
+                    _faceNo = -1;
+                    PushPANC();
                 })
-                .AddTo(gameObject);
-            // オプションボタン
-            _optionButton.OnClickAsAsyncEnumerable()
-                .SubscribeAwait(async (unit, token) =>
+                .AddTo(this);
+            _startAButton.OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
                 {
+                    _faceNo = 0;
+                    PushPANC();
+                })
+                .AddTo(this);
+            _startNButton.OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
+                {
+                    _faceNo = 1;
+                    PushPANC();
+                })
+                .AddTo(this);
+            _startCButton.OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
+                {
+                    _faceNo = -1;
+                    PushPANC();
+                })
+                .AddTo(this);
+            _howtoButton.OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
+                {
+                    Debug.Log($"START");
+                    StartGame();                    
+                })
+                .AddTo(this);
+            _startIButton.OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
+                {
+                    Debug.Log($"START GAME2");
+                    StartGame2();
+                })
+                .AddTo(this);
+            // ウルフボタン
+            _wolfWButton.OnClickAsAsyncEnumerable()
+                .SubscribeAwait(async (unit, _) =>
+                {
+                    Debug.Log($"WOLF START _isHowTo:{_isHowTo}");
                     if (_isHowTo)
                     {
                         return;
                     }
 
-                    await WolfCheckAsync(token);
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    await WolfCheckAsync(_cancellationTokenSource.Token);
                 })
-                .AddTo(gameObject);
+                .AddTo(this);
+            
+            // 戻る
+            _escButton.OnClickAsObservable()
+                .ThrottleFirst(System.TimeSpan.FromMilliseconds(1000))
+                .Subscribe(_ =>
+                {
+                    Debug.Log($"ESC _isHowTo:{_isHowTo}");
+                    if (!_escButton.gameObject.activeSelf)
+                    {
+                        return;
+                    }
+                    Debug.Log($"ESC _isHowTo:{_isHowTo}");
+                    SEManager.Instance.Play(SEPath.SE_RETURN_TITLE);
+                    
+                    _wolfWButton.gameObject.SetActive(true);
+                    _startPButton.gameObject.SetActive(true);
+                    _startAButton.gameObject.SetActive(true);
+                    _startNButton.gameObject.SetActive(true);
+                    _startIButton.gameObject.SetActive(true);
+                    _startCButton.gameObject.SetActive(true);
+                    _escButton.gameObject.SetActive(false);
+                    
+                    _startInputBlock = false;
+                    EventSystem.current.SetSelectedGameObject(_startPButton.gameObject);
+                    
+                    if (_isHowTo)
+                    {
+                        _howTo.SetActive(false);
+                        _isHowTo = false;
+                        return;
+                    }
+
+                    if (_cancellationTokenSource != null)
+                    {
+                        _cancellationTokenSource.Cancel();
+                        _worfLayer.SetActive(false);
+                    }
+                    _titleLayer.SetActive(true);
+                })
+                .AddTo(this);
         }
 
+        private void PushPANC()
+        {
+            if (_worfLayer.activeSelf)
+            {
+                return;
+            }
+            if (!_isHowTo)
+            {
+                Debug.Log($"START HOWTO");
+                SEManager.Instance.Play(SEPath.SE_TITLE_START_BUTTON);
+                _howTo.SetActive(true);
+                _isHowTo = true;
+                        
+                _wolfWButton.gameObject.SetActive(false);
+                _startPButton.gameObject.SetActive(false);
+                _startAButton.gameObject.SetActive(false);
+                _startNButton.gameObject.SetActive(false);
+                _startIButton.gameObject.SetActive(false);
+                _startCButton.gameObject.SetActive(false);
+                _escButton.gameObject.SetActive(true);
+                        
+                EventSystem.current.SetSelectedGameObject(_howtoButton.gameObject);
+            }
+        }
+
+        private void OnFireP(InputAction.CallbackContext context)
+        {
+            Debug.Log($"P");
+            _startPButton.onClick.Invoke();
+        }
+        
+        private void OnFireA(InputAction.CallbackContext context)
+        {
+            Debug.Log($"A");
+            _startAButton.onClick.Invoke();
+        }
+        
+        private void OnFireN(InputAction.CallbackContext context)
+        {
+            Debug.Log($"N");
+            _startNButton.onClick.Invoke();
+        }
+        
+        private void OnFireI(InputAction.CallbackContext context)
+        {
+            Debug.Log($"I");
+            _startIButton.onClick.Invoke();
+        }
+        private void OnFireC(InputAction.CallbackContext context)
+        {
+            Debug.Log($"C");
+            _startCButton.onClick.Invoke();
+        }
+        
+        private void OnFireW(InputAction.CallbackContext context)
+        {
+            Debug.Log($"W");
+            _wolfWButton.onClick.Invoke();
+        }
+        
+        private void OnCancel(InputAction.CallbackContext context)
+        {
+            Debug.Log($"Cancel");
+            _escButton.onClick.Invoke();
+        }
+        
         private void StartGame()
         {
             if (_startInputBlock)
@@ -140,7 +314,7 @@ namespace GGJ
             }
             _startInputBlock = true;
             SEManager.Instance.Play(SEPath.SE_CLOSE_RULE);
-            SceneContext.Instance.SetGameMode(GameMode.normal);
+            SceneContext.Instance.SetGameMode(GameMode.normal, _faceNo);
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
         }
 
@@ -152,7 +326,7 @@ namespace GGJ
             }
             _startInputBlock = true;
             SEManager.Instance.Play(SEPath.SE_CLOSE_RULE);
-            SceneContext.Instance.SetGameMode(GameMode.hard);
+            SceneContext.Instance.SetGameMode(GameMode.hard, _faceNo);
             TransitionAnimator.Start(_starTransitionProfile, sceneNameToLoad: "Game");
         }
 
@@ -170,6 +344,23 @@ namespace GGJ
             _titleLayer.SetActive(false);
             _worfLayer.SetActive(true);
 
+            _wolfWButton.gameObject.SetActive(false);
+            _startPButton.gameObject.SetActive(false);
+            _startAButton.gameObject.SetActive(false);
+            _startNButton.gameObject.SetActive(false);
+            _startIButton.gameObject.SetActive(false);
+            _startCButton.gameObject.SetActive(false);
+            _escButton.gameObject.SetActive(true);
+            
+            _p1.SetActive(false);
+            _p2.SetActive(false);
+            _p3.SetActive(false);
+            _p4.SetActive(false);
+            _wolfN.SetActive(false);
+            _wolfW.SetActive(false);
+            _howToW.SetActive(false);
+            _wolfS.SetActive(false);
+            
             var rindex = UnityEngine.Random.Range(0, 4);
             PlayerStateList[rindex] = true;
 

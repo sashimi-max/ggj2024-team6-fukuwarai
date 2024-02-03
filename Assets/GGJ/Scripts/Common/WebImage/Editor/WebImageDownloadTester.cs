@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,12 +18,12 @@ namespace GGJ.Common.WebImage
 
             if (GUILayout.Button("画像リスト テストダウンロード"))
             {
-                webImageDownloader.DownloadImageIdList().Forget();
+                webImageDownloader.DownloadImageIdList(CancellationToken.None).Forget();
             }
 
             if (GUILayout.Button("画像 テストダウンロード"))
             {
-                webImageDownloader.DownloadImage("e55bae81-5e1c-4e0c-b190-057f61de8b01").Forget();
+                webImageDownloader.DownloadImage(CancellationToken.None,"e55bae81-5e1c-4e0c-b190-057f61de8b01").Forget();
             }
         }
     }

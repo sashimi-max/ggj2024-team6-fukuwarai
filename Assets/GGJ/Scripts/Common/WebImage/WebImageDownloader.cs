@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -19,13 +20,15 @@ public class WebImageDownloader : MonoBehaviour
     public IObservable<byte[]> OnDownLoadImage => _onDownLoadImage;
     private Subject<byte[]> _onDownLoadImage = new Subject<byte[]>();
 
-    public async UniTask<List<byte[]>> DownloadImageRecentry(int page = 1, int perPage = 10)
+    public async UniTask<List<byte[]>> DownloadImageRecentry(CancellationToken token, int page = 1, int perPage = 10)
     {
-        var imageIds = await DownloadImageIdList(page, perPage);
+        token.ThrowIfCancellationRequested();
+        
+        var imageIds = await DownloadImageIdList(token, page, perPage);
         var blobs = new List<byte[]>();
         foreach (var imageId in imageIds)
         {
-            var blob = await DownloadImage(imageId);
+            var blob = await DownloadImage(token, imageId);
             if (blob.Length > 0)
             {
                 blobs.Add(blob);
@@ -34,8 +37,10 @@ public class WebImageDownloader : MonoBehaviour
         return blobs;
     }
 
-    public async UniTask<List<string>> DownloadImageIdList(int page = 1, int perPage = 10)
+    public async UniTask<List<string>> DownloadImageIdList(CancellationToken token, int page = 1, int perPage = 10)
     {
+        token.ThrowIfCancellationRequested();
+        
         var queryString = System.Web.HttpUtility.ParseQueryString("");
         queryString.Add("page", page.ToString());
         queryString.Add("perPage", perPage.ToString());
@@ -75,8 +80,9 @@ public class WebImageDownloader : MonoBehaviour
         }
     }
 
-    public async UniTask<byte[]> DownloadImage(string imageId)
+    public async UniTask<byte[]> DownloadImage(CancellationToken token, string imageId)
     {
+        token.ThrowIfCancellationRequested();
         var url = host + imageDownloadPath + "/" + imageId;
         using (var request = UnityWebRequest.Get(url))
         {

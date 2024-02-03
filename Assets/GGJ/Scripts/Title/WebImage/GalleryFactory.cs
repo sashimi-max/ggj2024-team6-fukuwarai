@@ -1,6 +1,8 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +15,8 @@ namespace GGJ.Title.WebImage
         [SerializeField] Transform gallerySpawnTransform;
         [SerializeField] Image galleryImagePrefab;
 
+        private CancellationTokenSource _cancellationTokenSource;
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -20,7 +24,13 @@ namespace GGJ.Title.WebImage
                 .Subscribe(blob => SpawnGallery(blob))
                 .AddTo(this);
 
-            webImageDownloader.DownloadImageRecentry().Forget();
+            _cancellationTokenSource = new CancellationTokenSource();
+            webImageDownloader.DownloadImageRecentry(_cancellationTokenSource.Token).Forget();
+        }
+
+        private void OnDestroy()
+        {
+            _cancellationTokenSource.Dispose();
         }
 
         private void SpawnGallery(byte[] blob)
